@@ -1,0 +1,11 @@
+# 7ALLAB Engineering Office
+# Preserve exact source bytes for governed documents and evidence.
+
+/AGENTS.md -text
+/CLAUDE.md -text
+/README.md -text
+/director/** -text
+/docs/** -text
+/governance/** -text
+/imports/** -text
+/inventory/source-manifest.json -text

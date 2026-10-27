@@ -1,0 +1,135 @@
+7ALLAB AGENT SKILL ASSIGNMENT MATRIX v1
+0 · 5.1kB · 13 hours ago
+# 7ALLAB SOFTWARE — Agent & Skill Assignment Matrix
+ 
+**Document ID:** 7ALLAB-AGENT-SKILL-001  
+**Version:** 1.0  
+**Status:** Proposed Operational Mapping  
+**Scope:** Claude AI Engineering Office
+ 
+## 1. Purpose
+ 
+Coordinate installed Engineering, Product Management, Design and Figma skills without duplicated workflow ownership, unauthorized execution or unnecessary context usage.
+ 
+This matrix supplements the Engineering Charter and Agent Collaboration Protocol.
+ 
+A listed skill is not an independent agent. A visible skill menu entry does not prove that its tools, MCP dependencies or external accounts are operational.
+ 
+## 2. Primary Responsibilities
+ 
+| Specialist | Primary Skills | Supporting Skills |
+|---|---|---|
+| Engineering Director | roadmap-update, standup | stakeholder-update |
+| Product Planner | write-spec, sprint-planning | product-brainstorming, synthesize-research |
+| Software Architect | architecture, system-design | documentation, tech-debt |
+| Implementation Engineer | debug | code-review, selective Superpowers when verified |
+| Security Engineer | Project security policy | Authorized security review and scanners |
+| QA Engineer | testing-strategy, code-review | accessibility-review, applicable test tools |
+| UI/UX Engineer | design-system, design-critique | design-handoff, ux-copy, Figma |
+| Research Engineer | synthesize-research, research-synthesis | competitive-brief, user-research |
+| Release Reviewer | deploy-checklist, code-review | Actual Git, test and security evidence |
+ 
+Roles are logical responsibilities unless separate agents have actually been launched and verified.
+ 
+## 3. Figma Specialization
+ 
+Use Figma only when actual design context or an approved design-writing task makes it relevant.
+ 
+**Design-to-code**
+- figma-design-to-code
+- figma-code-connect
+- figma-code-workflows
+ 
+**Design and specification**
+- figma-spec
+- figma-generate-diagram
+ 
+**Design creation and libraries**
+- figma-create-new-file
+- figma-generate-design
+- figma-generate-library
+ 
+**Programmatic Figma operations**
+- figma-use
+- figma-use-figjam
+- figma-generative-plugins
+ 
+**Motion and specialized output**
+- figma-implement-motion
+- figma-use-motion
+- figma-shaders
+- figma-swiftui
+- figma-use-slides
+ 
+Figma write operations require separate authorization. Do not modify shared design libraries or create files without approval.
+ 
+Prefer read-only design inspection before proposing implementation. Preserve existing components, design tokens, and the target application's established technology.
+ 
+## 4. Conflict Prevention
+ 
+- Product Management owns product requirements.
+- Engineering owns technical design and implementation workflow.
+- Design owns UI/UX assessment.
+- Figma owns Figma-specific file and design-tool workflows.
+- QA owns independent verification.
+- Security review remains independent from implementation approval.
+- The Engineering Director coordinates but does not override permissions.
+ 
+Do not run Product Management brainstorming and Superpowers brainstorming as competing mandatory processes.
+ 
+Do not regenerate product specifications when an approved current specification already exists.
+ 
+Do not invoke Figma for ordinary source-code work that does not involve Figma.
+ 
+Do not allow code-review skill output to replace actual test execution.
+ 
+Do not automatically load all skills for every task.
+ 
+## 5. Project Routing
+ 
+**KOVAN:** Engineering, Security and QA first. Preserve permission contracts and exact evidence.
+ 
+**APEXO:** Engineering and QA first. Use Design/Figma only for authorized UI work. Preserve read-only trading and financial precision.
+ 
+**LIFEACTA:** Product Management, Engineering, QA and Design. Prioritize date correctness, privacy and real-device validation.
+ 
+**7ALLAB Web:** Design, Engineering and QA. Use Figma only when a relevant design file or approved design task exists.
+ 
+## 6. Activation Rules
+ 
+Before invoking a skill or connected tool:
+ 
+1. Verify the current task requires it.
+2. Confirm the skill is actually available.
+3. Identify external services or MCP prerequisites.
+4. Check data sensitivity and permissions.
+5. Use the smallest relevant workflow.
+6. Report actual results and limitations.
+ 
+Never install, connect, activate, or modify tools because they appear in this document.
+ 
+## 7. Current Verification Status
+ 
+Engineering: 10 skill names observed in Claude UI.
+ 
+Product Management: 8 skill names observed.
+ 
+Design: 7 skill names observed.
+ 
+Figma: 16 skill names observed.
+ 
+Total: 41 observed skill names.
+ 
+Individual skill execution: NOT TESTED.
+ 
+Figma account/MCP write permission: NOT VERIFIED.
+ 
+Superpowers, Spec Kit, Context7 and other external development tools: NOT VERIFIED INSTALLED in this Claude Project.
+ 
+## 8. Next Validation
+ 
+Perform a strictly read-only pilot of one existing Engineering or Product Management skill.
+ 
+Verify expected instructions, actual tool behavior, evidence quality and permission compliance before broader adoption.
+ 
+**Operating principle:** One responsible specialist, one primary workflow, minimal permissions, independently verified output.

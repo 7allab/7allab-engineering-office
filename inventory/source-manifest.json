@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-27T15:13:48+03:00",
+  "status": "BOOTSTRAP_NOT_OPERATIONAL",
+  "canonicalTarget": "C:\\Projeler\\7allab-engineering-office",
+  "localRepositoryInitialized": true,
+  "approvedDecisions": {
+    "approvedAt": "2026-10-27",
+    "D1": "main-session Engineering Director plus eight specialist agents",
+    "D2": "stage, commit and push are separate authorization gates",
+    "D3": "first pilot is project-scoped; no global install or Agent Teams"
+  },
+  "sources": [
+    {
+      "id": "director-v1.2.2-readme",
+      "status": "VERIFIED_LOCAL_FILE",
+      "sourcePath": "C:\\Users\\crypt\\Documents\\Codex\\2026-10-27\\referenced-chatgpt-conversation-this-is-an\\outputs\\7allab-engineering-director\\README.md",
+      "sizeBytes": 7026,
+      "sourceLastWriteTime": "2026-10-27T10:32:16+03:00",
+      "importedAt": "2026-10-27T14:59:47+03:00",
+      "sha256": "CFF8BB283AB4413668CDDC02A896F36972B6FCF08A086767CAF6C134B8E1CE21",
+      "importPath": "imports/7allab-engineering-director-v1.2.2/README.md"
+    },
+    {
+      "id": "director-v1.2.2-skill",
+      "status": "VERIFIED_LOCAL_FILE",
+      "sourcePath": "C:\\Users\\crypt\\Documents\\Codex\\2026-10-27\\referenced-chatgpt-conversation-this-is-an\\outputs\\7allab-engineering-director\\SKILL.md",
+      "sizeBytes": 14434,
+      "sourceLastWriteTime": "2026-10-27T10:32:16+03:00",
+      "importedAt": "2026-10-27T14:59:47+03:00",
+      "sha256": "9CDBDBF416D9FD1E642FD4ADD3B99D1C0286823BF44051DA5B0E70AF5665D94D",
+      "importPath": "imports/7allab-engineering-director-v1.2.2/SKILL.md"
+    },
+    {
+      "id": "director-v1.2.2-evals",
+      "status": "VERIFIED_LOCAL_FILE",
+      "sourcePath": "C:\\Users\\crypt\\Documents\\Codex\\2026-10-27\\referenced-chatgpt-conversation-this-is-an\\outputs\\7allab-engineering-director\\evals\\test-cases.md",
+      "sizeBytes": 11488,
+      "sourceLastWriteTime": "2026-10-27T10:32:16+03:00",
+      "importedAt": "2026-10-27T14:59:47+03:00",
+      "sha256": "D9ECDD26C3CE1E10FAC66621337FC41E95C66F8105199653CF6286FA0F7BB5B8",
+      "importPath": "imports/7allab-engineering-director-v1.2.2/evals/test-cases.md"
+    },
+    {
+      "id": "director-v1.2.3-skill-observed",
+      "status": "VERIFIED_CLAUDE_SYNC_CACHE_FILE",
+      "sourcePath": "C:\\Users\\crypt\\AppData\\Roaming\\Claude\\local-agent-mode-sessions\\skills-plugin\\0604f6c3-6b13-4e6a-acdb-515062a4f4d7\\b23b71eb-0d1f-4ece-bc0e-db177cea041e\\skills\\7allab-engineering-director\\SKILL.md",
+      "corroboratingPath": "C:\\Users\\crypt\\OneDrive\\Desktop\\Yeni klasör (3)\\SKILL.md",
+      "corroboratingSha256": "AD39EA4A621A19CAA5DB2FE3D1AA3041BF3197BC9E24B16F35DD329D48612425",
+      "sizeBytes": 14631,
+      "sourceLastWriteTime": "2026-10-27T14:06:02+03:00",
+      "importedAt": "2026-10-27T15:03:18+03:00",
+      "sha256": "AD39EA4A621A19CAA5DB2FE3D1AA3041BF3197BC9E24B16F35DD329D48612425",
+      "importPath": "imports/7allab-engineering-director-v1.2.3-observed/SKILL.md"
+    },
+    {
+      "id": "director-v1.2.3-readme-stale",
+      "status": "VERSION_CONFLICT",
+      "sourcePath": "C:\\Users\\crypt\\AppData\\Roaming\\Claude\\local-agent-mode-sessions\\skills-plugin\\0604f6c3-6b13-4e6a-acdb-515062a4f4d7\\b23b71eb-0d1f-4ece-bc0e-db177cea041e\\skills\\7allab-engineering-director\\README.md",
+      "sizeBytes": 8107,
+      "sourceLastWriteTime": "2026-10-27T14:06:02+03:00",
+      "importedAt": "2026-10-27T15:03:18+03:00",
+      "sha256": "4B5AE1814A1C4548487B4A0E781A465BADCF8CB6616159A4E9EDD77D019557A5",
+      "importPath": "imports/7allab-engineering-director-v1.2.3-observed/README.md",
+      "conflict": "README declares v1.2.2 while sibling SKILL metadata and eval file declare v1.2.3"
+    },
+    {
+      "id": "director-v1.2.3-evals-observed",
+      "status": "VERIFIED_FILE_EVALS_NOT_GREEN",
+      "sourcePath": "C:\\Users\\crypt\\AppData\\Roaming\\Claude\\local-agent-mode-sessions\\skills-plugin\\0604f6c3-6b13-4e6a-acdb-515062a4f4d7\\b23b71eb-0d1f-4ece-bc0e-db177cea041e\\skills\\7allab-engineering-director\\evals\\test-cases.md",
+      "sizeBytes": 16042,
+      "sourceLastWriteTime": "2026-10-27T14:06:02+03:00",
+      "importedAt": "2026-10-27T15:03:18+03:00",
+      "sha256": "3357627E68ADFDA428C44B358A62E2056397F740F9F84F65B3BCD2445686D3AD",
+      "importPath": "imports/7allab-engineering-director-v1.2.3-observed/evals/test-cases.md"
+    },
+    {
+      "id": "engineering-charter-v1",
+      "status": "RECOVERED_PROPOSED_PASTED_SOURCE",
+      "sourcePath": "C:\\Users\\crypt\\.codex\\attachments\\0bd87f21-4d6f-4b25-b258-eaa5fb02e3fb\\Yapıştırılan metin.txt",
+      "sizeBytes": 17122,
+      "importedAt": "2026-10-27T15:03:18+03:00",
+      "sha256": "AA4996C5AF30DE8BD45D348563070F12CA82A8459D56B3BF1254A1300C7A9714",
+      "importPath": "imports/governance-proposed-v1/engineering-charter.source.txt"
+    },
+    {
+      "id": "agent-roles-handoff-protocol-v1",
+      "status": "RECOVERED_PROPOSED_PASTED_SOURCE",
+      "sourcePath": "C:\\Users\\crypt\\.codex\\attachments\\0b795b63-0643-4a4e-aa81-c8a14d9e685c\\Yapıştırılan metin.txt",
+      "sizeBytes": 15266,
+      "importedAt": "2026-10-27T15:03:18+03:00",
+      "sha256": "16A6CB2B85D546C60BCF643F868D126B5508770DF1BA117C2F5933C6AD21E19C",
+      "importPath": "imports/governance-proposed-v1/agent-roles-handoff-protocol.source.txt"
+    },
+    {
+      "id": "skill-tool-registry-v1",
+      "status": "RECOVERED_PROPOSED_PASTED_SOURCE",
+      "sourcePath": "C:\\Users\\crypt\\.codex\\attachments\\04b8088e-a003-450a-a4c5-76949159a2b3\\Yapıştırılan metin.txt",
+      "sizeBytes": 18506,
+      "importedAt": "2026-10-27T15:03:18+03:00",
+      "sha256": "18949143A93C2B0C732E788C8F5462C0B1BAA29070171CC454A38837BD49BE41",
+      "importPath": "imports/governance-proposed-v1/skill-tool-registry.source.txt"
+    },
+    {
+      "id": "agent-skill-assignment-matrix-v1",
+      "status": "RECOVERED_PROPOSED_PASTED_SOURCE",
+      "sourcePath": "C:\\Users\\crypt\\.codex\\attachments\\0f38d271-2bc8-4017-bc7d-7e52e47781e3\\Yapıştırılan metin.txt",
+      "sizeBytes": 5327,
+      "importedAt": "2026-10-27T15:03:18+03:00",
+      "sha256": "30FB098DB86C41937FFDF17473CECAC2DE41F78FD167BC5DD075BA4B7937A68B",
+      "importPath": "imports/governance-proposed-v1/agent-skill-assignment-matrix.source.txt"
+    },
+    {
+      "id": "core-operating-instructions-v1",
+      "status": "RECOVERED_UNRATIFIED_PASTED_SOURCE",
+      "sourcePath": "C:\\Users\\crypt\\.codex\\attachments\\c5aae422-644d-4cce-b5ec-f29f6a90846d\\Yapıştırılan metin.txt",
+      "sizeBytes": 8604,
+      "importedAt": "2026-10-27T15:03:18+03:00",
+      "sha256": "6AA960CE1C1FDA13C370030410BFF5320EFB80801EC5E455A4932622024991F7",
+      "importPath": "imports/governance-proposed-v1/core-operating-instructions.source.txt"
+    }
+  ],
+  "derivedArtifacts": [
+    {
+      "path": "governance/engineering-charter.md",
+      "status": "RATIFIED",
+      "sha256": "9DE20F792BFBDBA435FBCEEAA4DF40569F6D5DA079AA63D41274B9A1A896345D"
+    },
+    {
+      "path": "governance/agent-roles-handoff-protocol.md",
+      "status": "RATIFIED",
+      "sha256": "2A6CE0B647C353421CD698A554522714DE813513C36614BF6FE7C100F08266FE"
+    },
+    {
+      "path": "governance/skill-tool-registry.md",
+      "status": "RATIFIED",
+      "sha256": "692D4899D856FEC2097D9513CB72CF096F57BE21328C4134AB30E04B1909CC85"
+    },
+    {
+      "path": "governance/agent-skill-assignment-matrix.md",
+      "status": "RATIFIED",
+      "sha256": "DA1E998BF3460614B372A5F1B3733F75CE7A647F6EDFDC221D556214F34F6544"
+    },
+    {
+      "path": "governance/core-operating-instructions.md",
+      "status": "RATIFIED",
+      "sha256": "D920E7717ACE56B5441B0BE25205F0FB265A1B51D6CEC41D9994ECAE5AEAE4A3"
+    },
+    {
+      "path": "governance/project-adapters/kovan.md",
+      "status": "DRAFT_RATIFICATION_PENDING",
+      "sha256": "D80B5BBD38B8D230C4001CC7E2EDBC002894098D66E5FA9583AE6870FD997E63"
+    },
+    {
+      "path": "governance/project-adapters/apexo.md",
+      "status": "DRAFT_RATIFICATION_PENDING",
+      "sha256": "23FD0B7F98BD5AE1F7EDCF3EE33B1D6EB7C036DB67539F3A5EFC80E6DAC01A89"
+    },
+    {
+      "path": "governance/project-adapters/lifeacta.md",
+      "status": "DRAFT_RATIFICATION_PENDING",
+      "sha256": "B6BE9E3BB415CFB3D3D104BE9F829F41DD825FC33354EE348C67A448EDAECA75"
+    },
+    {
+      "path": "governance/project-adapters/7allab-web.md",
+      "status": "DRAFT_RATIFICATION_PENDING",
+      "sha256": "C88D4F171D02A514A8BAD6FCD75A02B58A199377A71DAE5CA72754884C94C33F"
+    },
+    {
+      "path": "director/7allab-engineering-director/SKILL.md",
+      "status": "CANDIDATE_EVAL_GATE_PENDING",
+      "sha256": "60C6D6F069FF0132EAC96E4D428449D96379AB70300F9511C8F4434EBC26B329"
+    },
+    {
+      "path": "director/7allab-engineering-director/README.md",
+      "status": "CANDIDATE_EVAL_GATE_PENDING",
+      "sha256": "B17EDB3A3CED73B0A256357CCB68BEE64A027EF717F3A84D04BE8A8110D02C10"
+    },
+    {
+      "path": "director/7allab-engineering-director/evals/test-cases.md",
+      "status": "CANDIDATE_EVAL_GATE_PENDING",
+      "sha256": "3357627E68ADFDA428C44B358A62E2056397F740F9F84F65B3BCD2445686D3AD"
+    }
+  ],
+  "runtimeObservation": {
+    "status": "OBSERVED_LOCAL_COMMAND_AND_SETTINGS",
+    "observedAt": "2026-10-27T14:43:00+03:00",
+    "observationMethod": [
+      "claude --version",
+      "read named environment keys from C:\\Users\\crypt\\.claude\\settings.json",
+      "read current process environment keys"
+    ],
+    "claudeCodeVersion": "2.1.295",
+    "agentTeamsEnabled": false,
+    "customSpawnDepth": null,
+    "customConcurrencyLimit": null
+  },
+  "prohibitedClaims": [
+    "v1.2.3 package is internally consistent",
+    "director eval suite passed",
+    "project adapters or their DERIVED rules are ratified, approved or binding product policy",
+    "ratified governance documents are installed, enforced or operational controls",
+    "account-synced skill was successfully invoked in this audit",
+    "department agents are installed"
+  ]
+}
