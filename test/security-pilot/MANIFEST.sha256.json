@@ -1,0 +1,23 @@
+{
+  "about": "SHA-256 of every package file except this one. Integrity only; not a test result.",
+  "files": {
+    "README.md": "f12ea70eb31ca81789b47210865107fc3d9d2c26464772f75d60bab89d139208",
+    "check-package.mjs": "c6524c6283c934a4eba6f3e23468ed10577b21b54a9fd941a200add76ef76a8e",
+    "evidence-schema.json": "2a65fee63682aa7da06136020872d825720d71e27d6b5c303b916e58aea37bd5",
+    "evidence-template.json": "4601c4289dab234dd2d5a90478f1faba977340e53e9ef6cdd064169fe91c6be6",
+    "fixtures/events.json": "81d52bb85f11f3be3fbf95a18005836251214b97023fe1a651b05df274e338c2",
+    "hooks/_marker.mjs": "208c264fe77e2a60f422425743efc9a006d530cbbd4460035d7310cfb61a790b",
+    "hooks/probe-error.mjs": "d9d73ecc4919630fcd5c233bc457b7cb038099bb10e68bc11d3696493aff7ca8",
+    "hooks/probe-marker.mjs": "bc16f825d0886457868ed5ecc6841831c31144d5fcf6291156e4af6616d0b4ed",
+    "hooks/probe-timeout.mjs": "4bcbf82fba08361a0bad6b93f9141ba4d40fb91d9397375968d368dd544c1a19",
+    "payload-manifest.json": "70ebffdb54d95e1c0aa62b626f51f57e07d5856b30f0ea1a2ffcb124842deea6",
+    "policies/p1-baseline.test.json": "cf47f2cc03992ed4a33679dcdfd5e9a44b5e88384f144f5f12c4eb193e40b940",
+    "policies/p2-managed-hooks-only.test.json": "a1acf555f52f12285f571e0bdc1cba1bf2dd3328e051f10877b6b738679d5772",
+    "policies/p3-onfailure-missing-script.test.json": "e51c9c1edf7749f1d0a28675d6043e210107f73f38b2a404dc4bee6cf4563b50",
+    "policies/p4-onfailure-error.test.json": "bf690fe2adf2d30f76fa631b4dbfff0af0c1548161680c05bfd6aab1be6aac9c",
+    "policies/p5-onfailure-timeout.test.json": "16096bb854fa7569ac39d002176c23d9af53f0a5d5cf0bd37d2e871de4f6b41b",
+    "policies/p6-control-error-without-onfailure.test.json": "a742f6f11d2754cecc7ae24c90a087e2743812a90c0da829bddbf2a76e372bb1",
+    "sandbox/inside-sandbox-setup.ps1": "05c6ea4208d2152501461fc3ed45966e55f26e52836ec79064b2cae7f008a1e6",
+    "sandbox/pilot.wsb.draft.xml": "7b9577d6fa45e19e9d1e4eb42dd8ceda9fcc152be7993e0ae74d824dcf24720c"
+  }
+}

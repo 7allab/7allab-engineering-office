@@ -1,0 +1,18 @@
+{
+  "_about": "What the owner must stage (future, separately authorized step) into the read-only host payload folder. Existing project sources are pinned by SHA-256 and are copied unchanged. Non-sensitive only: no repo, no profile, no credentials.",
+  "sandbox_target": "C:\\payload",
+  "pinned_existing_sources": [
+    { "from": "scripts/guard.mjs", "to": "scripts/guard.mjs", "sha256": "6db9c5474333b6fed31019f880c8b10507e304122a841a7c4650462625312ee8" },
+    { "from": "scripts/authority-grant.mjs", "to": "scripts/authority-grant.mjs", "sha256": "b20284f6ca93f77dd8855979b67365e7f248a76952036dcbdc280d71e63277c4" },
+    { "from": "scripts/guard-scope.mjs", "to": "scripts/guard-scope.mjs", "sha256": "a4ea9ff7f554a30c21cfa4838d922cfb44c377a8e6916becb1b9b113732b9053" },
+    { "from": "scripts/decision-gate-event-adapter.mjs", "to": "scripts/decision-gate-event-adapter.mjs", "sha256": "486e510be3723e4223bf2b9de245ef35262a4f5e131bee8daf59e6c25bf909fe" },
+    { "from": "scripts/validate-director-decision.mjs", "to": "scripts/validate-director-decision.mjs", "sha256": "23eb84f2f526cb5c2f2224f568710fd88efdbef10a32e6e0d4647d3f25a9a002" }
+  ],
+  "from_this_package": ["policies/*.test.json", "hooks/*.mjs", "fixtures/events.json", "sandbox/inside-sandbox-setup.ps1"],
+  "owner_must_supply_not_in_repo": [
+    { "to": "bin/node.exe", "why": "Hook commands call C:\\payload\\bin\\node.exe; a clean sandbox has no Node. Version/hash to be recorded by the owner." },
+    { "to": "bin/claude.exe", "why": "Runtime under test (host copy is ~298 MB, 2.1.312). Hash to be recorded in the run." },
+    { "to": "policy-to-install.txt", "why": "One line naming the policies/*.test.json to install for this run." }
+  ],
+  "forbidden_in_payload": ["any .claude profile or credentials file", "any product repo", "API keys or tokens", "user plugins", "imports/ content"]
+}

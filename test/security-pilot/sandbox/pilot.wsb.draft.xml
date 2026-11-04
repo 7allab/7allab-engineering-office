@@ -1,0 +1,23 @@
+<!-- DRAFT ONLY (K2-03-D). Not a .wsb, not validated against a real Windows Sandbox, never executed.
+     Replace __HOST_PAYLOAD_DIR__ with a dedicated folder holding ONLY the files listed in ../payload-manifest.json.
+     No writable mapping is defined on purpose: evidence stays inside the sandbox (C:\evidence); export is an owner decision. -->
+<Configuration>
+  <VGpu>Disable</VGpu>
+  <Networking>Disable</Networking>
+  <ClipboardRedirection>Disable</ClipboardRedirection>
+  <AudioInput>Disable</AudioInput>
+  <VideoInput>Disable</VideoInput>
+  <PrinterRedirection>Disable</PrinterRedirection>
+  <ProtectedClient>Enable</ProtectedClient>
+  <MemoryInMB>8192</MemoryInMB>
+  <MappedFolders>
+    <MappedFolder>
+      <HostFolder>__HOST_PAYLOAD_DIR__</HostFolder>
+      <SandboxFolder>C:\payload</SandboxFolder>
+      <ReadOnly>true</ReadOnly>
+    </MappedFolder>
+  </MappedFolders>
+  <LogonCommand>
+    <Command>powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\payload\sandbox\inside-sandbox-setup.ps1</Command>
+  </LogonCommand>
+</Configuration>

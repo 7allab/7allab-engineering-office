@@ -1,0 +1,20 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:\\payload\\bin\\node.exe",
+            "args": [
+              "C:\\payload\\hooks\\probe-timeout.mjs"
+            ],
+            "timeout": 2,
+            "onFailure": "block"
+          }
+        ]
+      }
+    ]
+  }
+}

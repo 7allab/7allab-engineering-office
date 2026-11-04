@@ -1,0 +1,10 @@
+{
+  "_about": "Minimal evidence schema for the future isolated run. Checked by check-package.mjs (hand-rolled, no dependency). Rules: policy LOADED is never PASS for enforcement; evidence_kind MOCK_ENDPOINT or DIRECT_FEED is never presented as real-model evidence; PASS needs evidence_sha256 of an artifact.",
+  "run_required": ["run_id", "date", "claude_version", "claude_sha256", "os_build", "policy_file", "policy_sha256", "package_manifest_sha256", "auth_mode", "network", "observations"],
+  "auth_mode_enum": ["NONE", "MOCK_ENDPOINT", "REAL"],
+  "status_enum": ["NOT_TESTED", "PASS", "FAIL", "INCONCLUSIVE", "UNOBSERVABLE"],
+  "evidence_kind_enum": ["STATIC", "DIRECT_FEED", "STARTUP_LOG", "MOCK_ENDPOINT", "LIVE_REAL_MODEL"],
+  "observation_required": ["id", "question", "expected", "observed", "status", "evidence_kind", "evidence_sha256", "max_claim", "notes"],
+  "max_claim_enum": ["LOADED", "HOOK_RAN", "ENFORCEMENT_DIRECT_FEED", "ENFORCEMENT_MOCK_ENDPOINT", "ENFORCEMENT_LIVE", "RELATIVE_BEHAVIOR", "NONE"],
+  "export": "none defined. Evidence stays in C:\\evidence inside the sandbox until the owner chooses a method (see README)."
+}
