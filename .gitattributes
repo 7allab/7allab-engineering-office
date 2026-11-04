@@ -9,3 +9,5 @@
 /governance/** -text
 /imports/** -text
 /inventory/source-manifest.json -text
+/scripts/** -text
+/test/** -text
