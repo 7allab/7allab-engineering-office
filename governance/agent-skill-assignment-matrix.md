@@ -142,4 +142,34 @@ Perform a strictly read-only pilot of one existing Engineering or Product Manage
  
 Verify expected instructions, actual tool behavior, evidence quality and permission compliance before broader adoption.
  
+## 9. Competency Ownership (D6-1)
+
+Added by Change ID K1-03-C-COMPETENCY-OWNERS (2026-10-29) on the basis of D6 (RATIFIED 2026-10-29, `docs/DECISIONS-REQUIRED.md`) and the project owner's decision of 2026-10-29. D6-1 binds four additional competencies to existing specialists. Each competency is a procedure used by its named primary owner. It is not an agent, not a role, not a continuously running service, and it does not extend the "Owns" lists of Agent Roles & Handoff Protocol Section 3.
+
+| Competency | Primary owner (one) | Independent review / verification |
+|---|---|---|
+| Release Engineering | Implementation Engineer | Release & Evidence Reviewer (independent review) |
+| Operations & Reliability | Software Architect | QA & Test Engineer verifies; Release & Evidence Reviewer when rollback or delivery readiness is involved |
+| Product Marketing & Support | Product Planner | Research Engineer verifies sources; Release & Evidence Reviewer verifies claims about delivered behavior |
+| Product Analytics | Product Planner | Security Engineer for data security; QA & Test Engineer for event verification |
+
+Rules:
+
+- Each competency has exactly one primary owner. The owner does not review or verify its own output for that task; the reviewers above are independent of the owner.
+- The Engineering Director count stays one and the specialist count stays eight. ROLE_SELECTED does not imply AGENT_DISPATCHED. A simulated role is recorded as simulated and is not independent execution.
+- Any tool set proposed for a role is a design proposal, not a runtime permission.
+- Planning, code changes, test execution, installation, Git operations, network access and external data transfer remain separate authorization categories. The default external data transfer is `NONE`. This section grants none of them.
+- The Agent Roles & Handoff Protocol independent-review rule for HIGH-risk tasks (Section 6.1) is unchanged. No additional mandatory reviewer, second architect or human-review rule is added.
+- Publishing, deployment and external publication remain separate human authorizations.
+- Claude Desktop may propose roadmap changes. The local Director records them only when authorized.
+- This section does not install, enable or verify any skill, agent or hook.
+
+## 10. Revision Record
+
+- Change ID K1-03-C-COMPETENCY-OWNERS, 2026-10-29, applied to the Assignment Matrix only. The version label remains 1.1.1 (one consistent version across the five governance documents, as in earlier Change IDs); this Change ID identifies the content difference. Status remains Ratified.
+- Decision source: D6-1 (RATIFIED 2026-10-29, `docs/DECISIONS-REQUIRED.md`) and the project owner's decision of 2026-10-29 to record the competency ownership in this Matrix (K1-03-B option A). The decision covers only the four competency ownership mappings in Section 9.
+- Reason: D6-1 binds four competencies to existing specialists and leaves the ownership mapping to the Matrix.
+- Changes: new Sections 9 and 10 only; Sections 1 to 8 are unchanged.
+- Affected roles: Implementation Engineer, Software Architect and Product Planner (primary owners); Release & Evidence Reviewer, QA & Test Engineer, Research Engineer and Security Engineer (reviewers).
+- Compatibility: no permission, gate, state model, role definition or independent-review rule is changed; the specialist set remains eight; no agent is created.
 **Operating principle:** One responsible specialist, one primary workflow, minimal permissions, independently verified output.

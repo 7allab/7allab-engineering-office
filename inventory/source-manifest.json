@@ -139,7 +139,7 @@
     {
       "path": "governance/agent-skill-assignment-matrix.md",
       "status": "RATIFIED",
-      "sha256": "DA1E998BF3460614B372A5F1B3733F75CE7A647F6EDFDC221D556214F34F6544"
+      "sha256": "DF53923DE106A21D5E63D5EAFD9EBFE0F18CE82EDBAB657FF858740519941072"
     },
     {
       "path": "governance/core-operating-instructions.md",
@@ -169,17 +169,17 @@
     {
       "path": "director/7allab-engineering-director/SKILL.md",
       "status": "CANDIDATE_EVAL_GATE_PENDING",
-      "sha256": "60C6D6F069FF0132EAC96E4D428449D96379AB70300F9511C8F4434EBC26B329"
+      "sha256": "8A0A346FB0B8281DD44A44CB7799C17560BEEC53C55F703C71C99D3F29A01643"
     },
     {
       "path": "director/7allab-engineering-director/README.md",
       "status": "CANDIDATE_EVAL_GATE_PENDING",
-      "sha256": "B17EDB3A3CED73B0A256357CCB68BEE64A027EF717F3A84D04BE8A8110D02C10"
+      "sha256": "B184E4B70719962A8512E0F64DC2A6A62C9C1AB4A00632C71084DF6E42AE30A4"
     },
     {
       "path": "director/7allab-engineering-director/evals/test-cases.md",
       "status": "CANDIDATE_EVAL_GATE_PENDING",
-      "sha256": "3357627E68ADFDA428C44B358A62E2056397F740F9F84F65B3BCD2445686D3AD"
+      "sha256": "B9B6FD7E565FA92F1CB2D740507126F2AE810ADDA57CAFE361ADB0C9E4C67D3E"
     }
   ],
   "runtimeObservation": {

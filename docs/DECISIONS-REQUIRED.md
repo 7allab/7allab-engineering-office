@@ -100,6 +100,140 @@ tanımlanmadı. Ayrım şöyle yapılır:
 | `governance/project-adapters/lifeacta.md` | 0.3-draft | `B6BE9E3BB415CFB3D3D104BE9F829F41DD825FC33354EE348C67A448EDAECA75` |
 | `governance/project-adapters/7allab-web.md` | 0.3-draft | `C88D4F171D02A514A8BAD6FCD75A02B58A199377A71DAE5CA72754884C94C33F` |
 
+## D6 — Engineering Office çalışma modeli
+
+**Durum: RATIFIED (2026-10-29).** Ratifikasyonun kaynağı: proje sahibinin
+2026-10-29 tarihli açık talimatı (K1-02-R): D6-1–D6-5 kararlarını, D6-3 altındaki
+beş açıklamayı ve kayıtlı yetki sınırlarını mevcut hâliyle RATIFIED statüsüne
+geçirmeyi onaylamıştır. Governance belgeleri (Charter, Protocol, Core, Registry,
+Matrix) bu kayıtla değişmedi; D6 ratifiye Protocol 2.1'i ve Charter'ı değiştirmez.
+
+*Tarihsel kayıt:* D6, aynı gün (2026-10-29) proje sahibinin kayıt iziniyle
+`PROPOSED / OWNER RATIFICATION PENDING` durumunda bu dosyaya yazıldı (ratifikasyon
+veya kabul değildi). Ratifikasyon aşağıdaki D6 içeriğini değiştirmedi.
+
+*Ratifikasyonun kapsamı:* Bu ratifikasyon yalnız D6 yönetişim kararına aittir.
+Director v1.2.13'ün kabulü değildir (Director `CANDIDATE / EVAL GATE PENDING`
+kalır); kurulu Director'ı yükseltme, uzman ajan oluşturma veya dispatch, kod, Git,
+dependency, hook, MCP veya Ruflo kurulumu, ürün depolarına erişim veya yazma
+yetkisi vermez; K2 operasyonel güvenlik kabulü değildir.
+
+**D6-1 — Organizasyon.** Tek Engineering Director ve sekiz uzman rol korunur
+(D1, Protocol 2.1). Release Engineering, Operations & Reliability, Product
+Marketing & Support ve Product Analytics dört ek ajan değil; mevcut uzmanlara
+bağlanacak yetkinliklerdir.
+
+**D6-2 — Yetkilendirme.** Mevcut default-deny, insan onayı ve ayrı işlem
+yetkileri korunur. ROLE_SELECTED, AGENT_DISPATCHED anlamına gelmez. D6 hiçbir
+yeni yürütme yetkisi vermez.
+
+**D6-3 — İki çalışma ortamının koordinasyonu.** Claude Desktop içindeki 7ALLAB
+SOFTWARE Engineering Office projesi; araştırma, gereksinim analizi, mimari
+değerlendirme, planlama, raporlama ve karar hazırlama ortamıdır. Yerel Claude
+Code, ratifiye sözleşmeye tabi tek Engineering Director yürütme yüzeyidir.
+İki yönlü devirde mevcut Protocol §5 ve §16 kullanılır. Desktop çıktıları, repo
+doğrulaması ve ayrı yetki kontrolü olmadan yürütme emrine dönüşmez.
+Bulut/proje ortamına yeni yerel kaynak veya kanıt aktarımı varsayılan olarak
+kapalıdır; paylaşılacak malzeme, veri sınıfı ve hedef için açık izin gerekir.
+Ham sır aktarımı yasaktır. Kanonik kaynak Git deposudur. Skill kopyaları otomatik
+senkronize varsayılmaz; hedeflenen etkin kopya ile doğrulanmış yükleme ayrı
+kaydedilir.
+
+**D6-4 — Ruflo.** Yalnız uygun ve doğrulanmış yöntemler seçici kullanılabilir.
+Tam Ruflo kurulumu, ikinci Director, swarm, autopilot ve otomatik yetki yükseltme
+yoktur.
+
+**D6-5 — Ürün yaşam döngüsü.** On aşama yalnız planlama ve sınıflandırma
+rehberidir. Yeni bağlayıcı süreç kapısı oluşturmaz.
+
+### D6-3 için proje sahibi açıklamaları (2026-10-29)
+
+1. **Desktop kanıt değerlendirmesi.** Claude Desktop tarafından yapılan inceleme,
+   birincil kanıt gerçekten incelenmişse en fazla `REVIEW_PERFORMED` statüsünde
+   olabilir. `REVIEW_VERIFIED`, yalnız Ratified Protocol 6.1'in gerektirdiği
+   bağımsız doğrulama koşullarıyla oluşturulur. Desktop'ın özet değerlendirmesi
+   bağımsız doğrulama yerine geçmez.
+2. **Yetkinin ortamlar arasında taşınması.** Desktop'tan aktarılan bir görevde
+   proje sahibinin kendi yetki ifadesi ve Protocol §5 kapsamı korunmalıdır. AI
+   tarafından yeniden yazılmış yetki ifadeleri yeni yetki oluşturmaz. Kod yazma,
+   Git, kurulum ve dış aktarım işlemlerinden önce açık yetkinin kapsamı Claude
+   Code'da doğrulanmalı; gerekiyorsa proje sahibinden yeniden onay alınmalıdır.
+3. **Desktop'taki Director kopyası.** Claude Desktop'taki v1.2.3 skill kopyasının
+   etkin yürütme Director'ı olduğu doğrulanmamıştır. Bu kopyanın bulunması ikinci
+   Director yetkisi oluşturmaz. Desktop çıktıları öneri ve çalışma girdisidir;
+   ratifiye Director kararı veya `AGENT_DISPATCHED` kanıtı değildir.
+4. **Protocol 2.1 uyumluluğu.** D6, Ratified Protocol 2.1'i değiştirmez. Desktop,
+   yalnız paylaşımı onaylanmış bilgilerle araştırma, analiz, planlama ve taslak
+   hazırlama işlevleri üstlenebilir. Bu işlevler yerel depo yetkisi, bağımsız
+   Director otoritesi veya otomatik yürütme hakkı oluşturmaz.
+5. **Desktop ortamı ve veri sınırı.** Claude Desktop / Projects / Cowork
+   ortamlarının gerçek depolama, bağlantı ve yürütme özellikleri doğrulanmadıkça
+   `UNKNOWN` kalır. Yerel kanıtların, kaynak kodun veya hassas verinin paylaşımı
+   için veri sınıfı, hedef ve açık yetki gereklidir. Varsayılan dış aktarım
+   `NONE` olarak korunur.
+
+### Açık kalan konular
+
+Director v1.2.13 kabul bekleyen kaynak adayıdır (`CANDIDATE / EVAL GATE PENDING`).
+Kurulu kopyaların kimlik doğrulaması, `.agents/` kökeni, Desktop projesinin mevcut
+yapılandırması ve K2 operasyonel güvenlik kabulü ayrı süreçlerde tamamlanır.
+K1-03 (uzman matrisi) D6 ratifikasyonundan sonra başlar.
+
+Bu kararın onaylanması Director kurulumu, uzman ajan başlatılması, Git işlemleri
+veya ürün depolarına yazma yetkisi vermez.
+
+## D7 — Aktif ürün kapsamı
+
+**Durum: RATIFIED — REVISED (2026-11-04).** Proje sahibinin son açık kararıyla
+aktif geliştirme yalnız `7allab-engineering-office` projesidir. Engineering Office
+tamamlandıktan sonra `APEXO` (`C:\Users\crypt\Projelerim\edge-ledger`), `LIFEACTA`
+(`C:\Users\crypt\Projelerim\lifeacta`) ve `KOVAN` bu yapı kullanılarak geliştirilecek
+ürün adaylarıdır. Üç ürünün kesin geliştirme ve pilot sırası ayrıca proje sahibi
+tarafından kararlaştırılacaktır. Bu karar bugün hiçbir ürün reposunu aktif
+geliştirme, erişim, test veya işlem kapsamına almaz.
+
+Eski `APEX` sistemi (`C:\Users\crypt\Projelerim\apex`), `APEX-API` ve
+`APEX-Orkestrator` Engineering Office geliştirme, test ve K4 ürün pilotu kapsamı
+dışındadır. 2026-11-04 tarihli kontrollü askıya almada iki servis
+`Stopped / Disabled`, uygulama kill-switch'i `DURDURULDU`, pozisyon çarpanı `0`
+ve `APEX-API-8811` kuralı silinmeden devre dışı bırakılmıştır. Kanıt:
+`APEX-suspension-evidence-20261104-100215.txt`, SHA-256
+`B0563A1A6A18194A217EA0030D5A9E316B1DE3D816857385606ABECCA2A82B95`.
+Broker tarafındaki açık emir/pozisyon sayısı TLS sertifika zinciri hatası nedeniyle
+bağımsız doğrulanamamıştır; yerel sıfır sayacı broker kanıtı sayılmaz.
+
+Bu karar APEX dosyalarını, servis veya NSSM kayıtlarını ya da firewall kuralını
+silme; APEX'i yeniden başlatma veya reaktive etme; APEXO, LIFEACTA veya KOVAN
+repolarına erişme ya da yazma; Git, test, kurulum, dağıtım ya da K2/K3/K4 kabul
+yetkisi vermez. Her biri ayrı açık onay gerektirir.
+
+## D8 — K2-05 güvenlik kapılarının tanımı
+
+**Durum: RATIFIED (2026-11-04).** Proje sahibi, resmî
+`K2-05-A/B/C/D/E/F → K3 → K4` sırasındaki daha önce tanımsız A, D, E ve F
+kapılarını aşağıdaki kapsamla onaylamıştır. Mevcut K2-05-B ağ izolasyonu ve
+K2-05-C managed-hook güven sınırı değişmez.
+
+- **K2-05-A — Host/runtime güvenlik tabanı:** Sürümler, etkin kurulum yüzeyleri,
+  global ve proje ayarları, default-deny kontrolleri ve dosya/paket bütünlüğü
+  salt-okunur envanterle kanıtlanır. Bilinmeyen veya erişilemeyen durum PASS
+  sayılmaz.
+- **K2-05-D — Model-dışı yetki defteri:** Yetkinin aktörü, kapsamı, işlemi,
+  süresi, tek kullanımlılığı, reddi ve geri alınması modelin değiştiremeyeceği bir
+  sınırda tutulur; eksik, süresi dolmuş, tekrar kullanılan veya kapsam dışı yetki
+  fail-closed reddedilir.
+- **K2-05-E — Sır ve veri aktarım sınırı:** Ham kimlik bilgileri AI bağlamına,
+  promptlara, loglara veya harici araçlara girmez; connector/MCP/ağ aktarımı veri
+  sınıfı, hedef ve açık izinle sınırlandırılır; redaksiyon ve proje izolasyonu
+  pozitif/negatif kanıtla doğrulanır.
+- **K2-05-F — Bütünleşik kabul ve geri dönüş:** A–E sonuçları birlikte negatif
+  senaryolar, rollback/recovery, kanıt bütünlüğü ve bağımsız insan güvenlik
+  incelemesiyle değerlendirilir. F, önceki kapılardaki eksikliği geçersiz kılamaz.
+
+Bu tanımlar kurulum, test yürütme, sistem değişikliği, ürün repo yazması, ajan
+dispatch, Git işlemi veya K2 kabulü yetkisi değildir. Her kapının planı,
+yürütmesi ve kabulü ilgili ayrı yetki ve kanıt koşullarına tabidir.
+
 ## Bilerek kabul edilen açık istisnalar
 
 1. **Charter:** önceki tam incelemeden sonra adaptör referansı eklendi; tam Charter
@@ -142,3 +276,6 @@ sahibinin kararıdır.
 - D3: APPROVED — project-scoped pilot; no global install or Agent Teams
 - D4: APPROVED — five governance documents (Charter, Protocol, Core, Registry, Matrix) ratified as the binding policy baseline, version 1.1.1
 - D5: APPROVED — four project adapters accepted as controlled safety references only; not ratified; status remains Draft — Ratification Pending
+- D6: RATIFIED — Engineering Office working model (Desktop / Claude Code coordination), D6-1 to D6-5 and the five D6-3 clarifications; ratified 2026-10-29 by explicit project owner instruction (K1-02-R); previously recorded 2026-10-29 as PROPOSED / OWNER RATIFICATION PENDING; does not accept Director v1.2.13, authorize installation, dispatch, Git, product-repo access, or K2 acceptance
+- D7: RATIFIED — REVISED — active development is only 7allab-engineering-office; APEXO, LIFEACTA and KOVAN are deferred product candidates after Engineering Office completion, with order undecided; legacy APEX and 7ALLAB Web remain outside scope; does not authorize product-repo access or writes, APEX deletion/reactivation, Git, test execution, installation, dispatch, or K2/K3/K4 acceptance
+- D8: RATIFIED — K2-05-A host/runtime baseline, K2-05-D model-external authority ledger, K2-05-E secrets/data-transfer boundary, and K2-05-F integrated acceptance/rollback definitions; does not authorize implementation, test execution, system changes, Git, or K2 acceptance
