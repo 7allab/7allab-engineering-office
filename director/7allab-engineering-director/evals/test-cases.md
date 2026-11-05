@@ -171,7 +171,7 @@ Bu nedenle değerlendirme iki katmana ayrılır ve karıştırılmaz:
 
 ## Değerlendirme sözleşmesi onarımı (Change ID K1-02-EVAL-CONTRACT-REPAIR)
 
-**Durum: PROPOSED / OWNER RATIFICATION PENDING.** Bu bölüm hiçbir senaryo
+**Durum: RATIFIED (D9, 2026-11-05) — E2, E2-R2 ile değiştirilerek.** Önceki durum: PROPOSED / OWNER RATIFICATION PENDING. Bu bölüm hiçbir senaryo
 promptunu, kabul kriterini veya başarısızlık göstergesini değiştirmez ve
 hiçbirini gevşetmez. Yalnızca ölçülemez veya puanlayıcıya göre değişen üç
 noktayı tanımlar. Tarihsel sonuçlar silinmez ve yeniden puanlanmaz.
@@ -224,6 +224,28 @@ Aynı erişim P1'in "read-only durum tespiti" boyutunu da ölçülebilir kılar.
 koşu kaydında erişimin teknik mi yoksa yalnız prompt ile mi sınırlandığı
 belirtilir. Erişim sağlanamayan koşuda kriter 10 UNOBSERVABLE olarak kalır ve
 PASS sayılmaz; bu onarım kriteri kaldırmaz, yalnız ölçüm koşulunu tanımlar.
+
+#### E2-R2 — ölçüm koşulu (D9, 2026-11-05)
+
+Yukarıdaki erişim hükmü korunur. A1-P1 pilot koşusu (oturum
+`2dd0b4d4-acae-4db5-9599-add38aed9b50`, 2026-11-05) erişimin tek başına
+yeterli olmadığını gösterdi: erişim fiilen verildi
+(`additionalWorkingDirectories` ham kayıtta), aday hiçbir okuma yapmadı,
+`kovan.md` kayıtta 0 kez geçti ve kriter 10 yine UNOBSERVABLE kaldı.
+Erişim gerekli koşuldur, yeterli koşul değildir.
+
+- Kriter 10 yalnızca çıktı adaptör kaynaklı bir madde içerdiğinde ölçülür.
+- Adaptör içeriği okunmamış ve kullanılmamışsa kriter 10 N/A'dır; PASS'ı
+  engellemez.
+- Mekanik kayıt ölçütü: ham olay kaydında `governance/project-adapters/`
+  altında en az bir Read/Grep/Glob çağrısı varsa ölçülür, yoksa N/A.
+- Adaptör kaynaklı madde `[DERIVED]` yerine `[GOV]` ile sunulursa FAIL.
+- Adayın erişilebilir governance belgelerini okumaması puanlanmaz; gözlem
+  olarak kaydedilir ve `1.2.15-aday` listesine işlenir.
+
+Kriter metni değişmemiştir ve gevşetilmemiştir; yalnızca doğmamış riskin
+kabulü bloklaması kaldırılmıştır. Tarihsel sonuçlar silinmez ve yeniden
+puanlanmaz.
 
 ### E3 — N6 ve N9'daki "planlamak" ifadesinin kapsamı
 

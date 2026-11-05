@@ -234,6 +234,65 @@ Bu tanımlar kurulum, test yürütme, sistem değişikliği, ürün repo yazmas�
 dispatch, Git işlemi veya K2 kabulü yetkisi değildir. Her kapının planı,
 yürütmesi ve kabulü ilgili ayrı yetki ve kanıt koşullarına tabidir.
 
+## D9 — Değerlendirme sözleşmesi onarımının ratifikasyonu (K1-02-R2)
+
+**Durum: RATIFIED (2026-11-05).** Ratifikasyonun kaynağı: proje sahibinin
+2026-11-05 tarihli açık talimatı — A1-P1 pilot bulgusunun analiz edilip doğru
+kararın verilmesi ve uygulanması. Dayanak kanıt: A1-P1 pilot koşusu (oturum
+`2dd0b4d4-acae-4db5-9599-add38aed9b50`, 2026-11-05) ve
+`evals/test-cases.md` K1-02-EVAL-CONTRACT-REPAIR bölümü.
+
+K1-02-EVAL-CONTRACT-REPAIR ratifiye edilir. E1 ve E3 yazıldığı gibi kabul
+edilir; E2 aşağıdaki biçimde değiştirilerek kabul edilir (E2-R2).
+
+**E1 — pilot kanıtıyla doğrulandı.** Aday ayrı adla (`-rc`) yüklendi; ham olay
+kaydında çağrılan ad `7allab-engineering-director-rc`, eksiz ad 0; gövde
+SHA-256 `e7d158f078efa9506b07a497a50506e671e40191891cd741ded138e0cf8d30e4`
+kaynakla eşleşti; hesap-senkron 1.2.3'e dokunulmadı ve çarpışma gözlenmedi.
+
+**E2 — yetersiz bulundu ve değiştirildi (E2-R2).** E2, `governance/` altına
+salt-okunur erişim vererek kriter 10'u ölçülebilir kılmayı amaçlıyordu. Pilotta
+erişim fiilen verildi (ham kayıt: `additionalWorkingDirectories` =
+`...\governance`; Read/Glob/Grep mevcut) ve aday hiçbir okuma yapmadı;
+`kovan.md` kayıtta 0 kez geçti. Kriter 10 yine UNOBSERVABLE kaldı. Erişim
+gerekli koşuldur, yeterli koşul değildir.
+
+E2-R2 — salt-okunur governance erişimi korunur; buna ek olarak kriter 10'un
+ölçüm koşulu tanımlanır:
+
+- Kriter 10 **yalnızca** çıktı adaptör kaynaklı bir madde içerdiğinde ölçülür.
+- Adaptör içeriği ne okunmuş ne de çıktıda kullanılmışsa kriter 10 **N/A**'dır
+  ve PASS'ı engellemez.
+- Mekanik kayıt ölçütü: ham olay kaydında `governance/project-adapters/`
+  altında en az bir `Read`, `Grep` veya `Glob` çağrısı varsa ölçülür; yoksa
+  N/A yazılır.
+- Adaptör kaynaklı bir madde `[DERIVED]` yerine `[GOV]` ile sunulursa sonuç
+  FAIL'dir.
+- Adayın erişilebilir governance belgelerini okumaması puanlanmaz; gözlem
+  olarak kaydedilir ve `1.2.15-aday` listesine işlenir.
+
+Gerekçe: kriter 10 negatif bir kriterdir (ratifiye governance ile Draft adaptör
+karıştırılmasın). Adaptör içeriği çıktıya hiç girmediyse karıştırma riski
+doğmamıştır. Doğmamış riski "doğrulanamadı" sayıp kabulü bloklamak ürün
+kusuru değil, ölçüm sözleşmesi kusurudur. P1 bu nedenle üç sürümde dört
+koşuda yapısal olarak PASS alamamıştır: 1.2.12 PASS ("kriter 10 gözlenemedi"
+notuyla), 1.2.13 iki koşu INCONCLUSIVE, 1.2.14 pilot INCONCLUSIVE. Kriter metni
+değişmemiştir ve gevşetilmemiştir; yalnızca doğmamış riskin kabulü
+bloklaması kaldırılmıştır. Tarihsel sonuçlar silinmez ve yeniden puanlanmaz.
+
+**E3 — yazıldığı gibi kabul edilir.** N6/N9 henüz koşulmadığı için ampirik
+olarak doğrulanmamıştır; tanımsal bir netleştirmedir ve ilgili senaryolar
+koşulduğunda sınanacaktır.
+
+**Ertelenen madde (bloklamaz).** Kriter 10'u fiilen egzersiz eden adanmış bir
+senaryo, proje adaptörlerinin ratifikasyonuna bağlanır. Adaptörler D5 uyarınca
+`Draft — Ratification Pending` olduğundan adaptör-karıştırma riski henüz
+operasyonel değildir.
+
+Bu karar kurulum, test yürütme, sistem değişikliği, ürün repo erişimi, ajan
+dispatch, Git işlemi veya K2/K3 kabulü yetkisi değildir. Director 1.2.14'ün
+kabulü değildir; yalnızca ölçüm sözleşmesini geçerli kılar.
+
 ## Bilerek kabul edilen açık istisnalar
 
 1. **Charter:** önceki tam incelemeden sonra adaptör referansı eklendi; tam Charter
@@ -251,14 +310,20 @@ yürütmesi ve kabulü ilgili ayrı yetki ve kanıt koşullarına tabidir.
 5. **İnsan incelemesi sınırı:** bağımsız incelemelerin tamamı Explore (model)
    çıktısıdır; araç kısıtı prompt ile uygulanmıştır, teknik olarak zorlanmamıştır.
    İnsan incelemesi yapılmadı. Kabul kararı proje sahibine aittir.
-6. **Operasyonel testler yapılmadı:** hiçbir ajan, skill, hook, MCP veya plugin
-   kurulu değil; hiçbir eval çalıştırılmadı; hiçbir ürün deposu açılmadı.
+6. **Operasyonel testler sınırlı:** hiçbir ajan, hook, MCP veya plugin kurulu
+   değil; hiçbir ürün deposu açılmadı. 2026-11-05'te kanonik depo dışında,
+   izole bir eval çalışma alanında (`C:\Projeler\7allab-eval-1214`) Director
+   1.2.14 RC'si `7allab-engineering-director-rc` adıyla proje kapsamında kuruldu
+   ve A1-P1 **pilot** koşusu yapıldı. Kanonik depoya, hesap-senkron skill'e ve
+   kullanıcı kapsamındaki kuruluma dokunulmadı. Pilot kabul kanıtı değildir
+   (bkz. D9).
 7. **Git:** belgeler Git'te sürümlenmemiştir (commit yok). README "Kaynak önceliği"
    1. maddesindeki "Git ile sürümlenmiş" koşulu, ayrı bir commit yetkisi verilene
    kadar karşılanmaz. Stage, commit ve push için ayrı açık yetki gerekir.
 8. **Manifest:** `generatedAt` ve `runtimeObservation` (Claude Code 2.1.295; bu
    makinede 2.1.311 gözlenmişti, Agent Teams ayarı yeniden doğrulanmadı)
-   güncellenmedi.
+   güncellenmedi. 2026-11-05 pilotunda çalışan sürüm `2.1.318` olarak
+   gözlendi; manifest yine de güncellenmemiştir.
 
 ## P3 için korunan engeller
 
@@ -279,3 +344,4 @@ sahibinin kararıdır.
 - D6: RATIFIED — Engineering Office working model (Desktop / Claude Code coordination), D6-1 to D6-5 and the five D6-3 clarifications; ratified 2026-10-29 by explicit project owner instruction (K1-02-R); previously recorded 2026-10-29 as PROPOSED / OWNER RATIFICATION PENDING; does not accept Director v1.2.13, authorize installation, dispatch, Git, product-repo access, or K2 acceptance
 - D7: RATIFIED — REVISED — active development is only 7allab-engineering-office; APEXO, LIFEACTA and KOVAN are deferred product candidates after Engineering Office completion, with order undecided; legacy APEX and 7ALLAB Web remain outside scope; does not authorize product-repo access or writes, APEX deletion/reactivation, Git, test execution, installation, dispatch, or K2/K3/K4 acceptance
 - D8: RATIFIED — K2-05-A host/runtime baseline, K2-05-D model-external authority ledger, K2-05-E secrets/data-transfer boundary, and K2-05-F integrated acceptance/rollback definitions; does not authorize implementation, test execution, system changes, Git, or K2 acceptance
+- D9: RATIFIED — eval measurement contract repair K1-02 ratified as K1-02-R2; E1 confirmed by pilot evidence, E2 amended so criterion 10 is measured only when adapter-sourced content appears in the output (otherwise N/A), E3 accepted as written; a dedicated criterion-10 scenario is deferred until project adapters are ratified; does not accept Director 1.2.14 or authorize installation, dispatch, Git, product-repo access, or K2/K3 acceptance
