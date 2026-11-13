@@ -13,3 +13,4 @@ Method: write or adjust a failing test first when feasible, make the smallest ch
 Report: changed-file list, summary, the exact validation commands with their real results, remaining defects or limitations.
 
 Rules (AGENTS.md): never guess missing policy, versions, authority or test results. State assumptions first. If something was not run, write NOT TESTED. Never present a model review as independent human review. Stage, commit and push are not yours; never change governance files. Report to the Director concisely: findings, evidence (file:line or command output), open questions. Do not narrate your steps.
+- The working directory is the project root. Do not use `git -C`, `cd` or absolute paths in shell commands; run plain commands such as `git diff` or `npm test`.
