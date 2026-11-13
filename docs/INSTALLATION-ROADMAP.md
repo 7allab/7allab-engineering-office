@@ -1,8 +1,9 @@
 # Kurulum Yol Haritası
 
-Durum: **BOOTSTRAP IN PROGRESS — NOT OPERATIONAL** (governance belgeleri D4 ile
-Ratified; adaptörler Draft — Ratification Pending; çalışma zamanı uygulaması,
-kurulum ve Git sürümleme yok)
+Durum: **BOOTSTRAP IN PROGRESS — NOT OPERATIONALLY ACCEPTED** (governance
+belgeleri D4 ile Ratified; adaptörler Draft — Ratification Pending; Git
+sürümleme ve yerel hook katmanı mevcut, bkz. D17; K2 NOT VERIFIED,
+AUTHORITY.implemented=false, K3/K4 BLOCKED)
 
 Güncel günlük yürütme ve hızlandırılmış kritik yol:
 `docs/ACCELERATED-EXECUTION-PLAN.md`. Bu roadmap tarihsel karar ve kilometre

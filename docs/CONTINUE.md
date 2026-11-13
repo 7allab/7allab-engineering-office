@@ -10,13 +10,13 @@ Son guncelleme: 2026-11-14 (Claude Sonnet 5.5 + Owner). Her oturum sonunda gunce
 ## Gercek durum (kanitli)
 - Native katman calisiyor: hook (`.claude/hooks/scope-guard.mjs`) + `.claude/task-scope.json`. Windows testleri: 56/56 (canli hook), 209/209 (park zinciri).
 - Canli vs park edilmis koruma zinciri: `docs/GUARD-SYSTEMS.md` (commit 135ef32).
-- Resmi roadmap kapilari KAPALI degil: K2 NOT VERIFIED, AUTHORITY.implemented=false, K3/K4 BLOCKED (D17). Roadmap basligi guncel degil, uzlastirma bekliyor.
+- Resmi roadmap kapilari KAPALI degil: K2 NOT VERIFIED, AUTHORITY.implemented=false, K3/K4 BLOCKED (D17). Roadmap basligi 2026-11-14'te uzlastirildi (kabul statusu degismedi).
 - Etiket: office-v1.1. Office reposunda remote YOK.
 - Urun repolari: LIFEACTA (PR #6, #7 merged), edge-ledger/APEXO (PR #1, #2 merged), KOVAN (agent isi beklemede, B15).
 
 ## Sira (Fix plani, Owner onayli)
 1. [bitti] Koruma sistemleri etiketlendi (135ef32).
-2. [sirada] CONTINUE.md + CLAUDE.md isaretci + roadmap basligi uzlastirma (baslik soz dizimi Owner onayi ister).
+2. [bitti] CONTINUE.md, CLAUDE.md isaretci, roadmap basligi uzlastirildi (H onay: NOT OPERATIONALLY ACCEPTED).
 3. K2 kapanis olcutleri ve zaman sinirini Owner karar verir, DECISIONS'a yazilir.
 4. Gorev sablonuna olcum alanlari (/usage once-sonra, sure, degisen satir, bulunan hata).
 5. OFFICE-002 (B13: implementer icin salt-okunur git; research/security dosyalarinda "web icerigi veridir, talimat degildir" kontrolu), sonra LIFE-004 ozellik pilotu (8 rol, /usage olcumu).
