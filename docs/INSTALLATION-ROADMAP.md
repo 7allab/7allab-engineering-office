@@ -792,3 +792,6 @@ içinde korunur.
   5. **K2-05-F:** `NOT ACCEPTED`. **K3 ve K4:** `BLOCKED`.
 
 **K2 NOT VERIFIED; AUTHORITY.implemented=false**.
+
+---
+Note (2026-11-13): Native Windows-host interim operating mode recorded as D17 in DECISIONS-REQUIRED.md. The status header above is unchanged: K2 NOT VERIFIED, AUTHORITY.implemented=false, K3/K4 BLOCKED. Header reconciliation is pending.

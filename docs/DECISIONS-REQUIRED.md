@@ -1458,3 +1458,10 @@ ADIM 22.9.4-C değişiklikleri (bu yetki paragrafı ve kayıt belgesindeki ilgil
 
 Statüler: `O4 INCONCLUSIVE`, `K2-05-C UNVERIFIED`, `K2-05-F NOT_ACCEPTED`, `K2 NOT VERIFIED`,
 `K3/K4 BLOCKED`, `AUTHORITY.implemented=false`, `REVIEW_VERIFIED=NO`.
+
+## D17 - Native Windows-host calisma modu (interim, dusuk guvence) - 2026-11-13 OWNER APPROVED
+- Karar: Native subagent katmani (commit 7026165 ve sonrasi) K2 kapanana kadar urun gelistirmede kullanilir.
+- Sinirlar: Ajanlar stage/commit/push/PR/merge yapmaz. Kapsam task-scope.json ile verilir. Owner her gorevi bagimsiz dogrular. Urun basina dokunulmaz listeleri gecerlidir.
+- Degismeyenler: K2 NOT VERIFIED, AUTHORITY.implemented=false, K3/K4 BLOCKED, REVIEW_VERIFIED=NO. Bu mod K3/K4 PASS sayilmaz.
+- Kanit: LIFEACTA PR #6 ve #7, edge-ledger PR #1 ve #2 (Owner bagimsiz kirmizi/yesil dogrulamasi ile).
+- K2/VM kapanis hatti ayri bir hat olarak surer (tek K2 kabul matrisi). Uretim-ready veya otonom calisma iddiasi K2 kapanmadan yapilamaz.
