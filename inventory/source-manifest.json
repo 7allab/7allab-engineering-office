@@ -1,6 +1,8 @@
 {
   "schemaVersion": 2,
   "generatedAt": "2026-10-27T15:13:48+03:00",
+  "lastRevalidatedAt": "2026-11-08T00:00:00+03:00",
+  "lastRevalidationScope": "Tüm sources ve derivedArtifacts kayıtları gerçek dosyalarla SHA-256 bazında yeniden doğrulandı (salt-okunur). Bulunan tek drift: evals/test-cases.md (düzeltildi). README.md hash'i içerik düzeltmesi nedeniyle güncellendi.",
   "status": "BOOTSTRAP_NOT_OPERATIONAL",
   "canonicalTarget": "C:\\Projeler\\7allab-engineering-office",
   "localRepositoryInitialized": true,
@@ -174,12 +176,12 @@
     {
       "path": "director/7allab-engineering-director/README.md",
       "status": "CANDIDATE_EVAL_GATE_PENDING",
-      "sha256": "B184E4B70719962A8512E0F64DC2A6A62C9C1AB4A00632C71084DF6E42AE30A4"
+      "sha256": "B998D28A1B034BE4ACF82E9BC4906D458F89AC2CA030CC4BC7D09859D4E6FCDE"
     },
     {
       "path": "director/7allab-engineering-director/evals/test-cases.md",
       "status": "CANDIDATE_EVAL_GATE_PENDING",
-      "sha256": "B9B6FD7E565FA92F1CB2D740507126F2AE810ADDA57CAFE361ADB0C9E4C67D3E"
+      "sha256": "088627FB824DEF97E337046FF80361FD23FF9EC9F63CAF40A86EED29279C7E93"
     }
   ],
   "runtimeObservation": {
@@ -197,7 +199,7 @@
   },
   "prohibitedClaims": [
     "v1.2.3 package is internally consistent",
-    "director eval suite passed",
+    "entire Director eval suite passed or the Director received operational acceptance",
     "project adapters or their DERIVED rules are ratified, approved or binding product policy",
     "ratified governance documents are installed, enforced or operational controls",
     "account-synced skill was successfully invoked in this audit",

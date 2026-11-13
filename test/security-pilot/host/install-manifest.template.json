@@ -1,0 +1,16 @@
+{
+  "_about": "Template only. Replace sources and zero SHA-256 values; this file must fail installation unchanged.",
+  "schema": "7allab-k205c-host-install/0.1",
+  "files": [
+    {
+      "source": "managed-settings.json",
+      "target": "managed-settings.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "source": "security/identity-gate.mjs",
+      "target": "security/identity-gate.mjs",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ]
+}

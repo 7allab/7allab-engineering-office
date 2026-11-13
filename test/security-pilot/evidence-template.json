@@ -8,6 +8,13 @@
   "policy_sha256": null,
   "package_manifest_sha256": null,
   "auth_mode": "NONE",
+  "auth_provenance": {
+    "credential_kind": "NONE",
+    "endpoint_kind": "NONE",
+    "source": "TEMPLATE_DEFAULT",
+    "evidence_sha256": null,
+    "notes": "auth_mode is recorded independently from evidence_kind; never infer one from the other"
+  },
   "network": "DISABLED",
   "observations": [
     { "id": "O1", "question": "Managed settings gerçekten yüklendi mi?", "expected": "Startup log shows managed-settings.json found/loaded from C:\\Program Files\\ClaudeCode (p1). Absence line seen on host: 'Broken symlink or missing file ... managed-settings.json'.", "observed": null, "status": "NOT_TESTED", "evidence_kind": "STARTUP_LOG", "evidence_sha256": null, "max_claim": "LOADED", "notes": "Loaded is not enforcement. Also record whether the built-in sec-default@builtin plugin line changes (effect UNKNOWN)." },
@@ -15,7 +22,7 @@
     { "id": "O3", "question": "allowManagedHooksOnly mevcut eklenti hook'larını nasıl etkiledi?", "expected": "Compare 'Registered N hooks from M plugins' startup line, p1 vs p2, same sandbox image. Direction not assumed.", "observed": null, "status": "NOT_TESTED", "evidence_kind": "STARTUP_LOG", "evidence_sha256": null, "max_claim": "RELATIVE_BEHAVIOR", "notes": "Sandbox has no user plugins (profile not copied): effect on the user's sage/claude-mem hooks needs a synthetic plugin via --plugin-dir; real-plugin effect stays UNKNOWN." },
     { "id": "O4", "question": "Yetkisiz Write/Edit/Bash/PowerShell isteği gerçekten reddedildi mi?", "expected": "Direct feed E01-E04,E10 match fixtures expect (exit 2 / deny JSON). Live: tool call blocked and target file not created.", "observed": null, "status": "NOT_TESTED", "evidence_kind": "DIRECT_FEED", "evidence_sha256": null, "max_claim": "ENFORCEMENT_DIRECT_FEED", "notes": "Direct feed tests the guard only. Enforcement by Claude Code needs MOCK_ENDPOINT (protocol-level) or LIVE_REAL_MODEL; mock is never labelled real-model." },
     { "id": "O5", "question": "onFailure:block eksik betik, hata ve timeout durumlarında engelledi mi?", "expected": "p3, p4, p5: tool call blocked. p6 (control, no onFailure): record what happens; difference p4 vs p6 is the evidence.", "observed": null, "status": "NOT_TESTED", "evidence_kind": "MOCK_ENDPOINT", "evidence_sha256": null, "max_claim": "ENFORCEMENT_MOCK_ENDPOINT", "notes": "onFailure field placement in the hook entry is an assumption of this package (UNVERIFIED); a schema rejection of the field is itself an outcome to record." },
-    { "id": "O6", "question": "Yerel sürümde bilinen managed-hook yükleme problemi gözleniyor mu?", "expected": "Hooks declared in managed policy appear in the registered-hook startup line and run (O1+O2).", "observed": null, "status": "NOT_TESTED", "evidence_kind": "STARTUP_LOG", "evidence_sha256": null, "max_claim": "NONE", "notes": "The problem definition was not supplied to this package: symptom UNKNOWN. Owner must state it before this observation can be judged." },
+    { "id": "O6", "question": "Yerel sürümde bilinen managed-hook yükleme problemi gözleniyor mu?", "expected": "Hooks declared in managed policy appear in the registered-hook startup line and run (O1+O2).", "observed": null, "status": "NOT_TESTED", "evidence_kind": "STARTUP_LOG", "evidence_sha256": null, "max_claim": "NONE", "notes": "The problem definition was not supplied to this package: symptom UNKNOWN. Owner must state it before this observation can be judged. STRUCTURAL LOCK: status may only ever be NOT_TESTED or DIAGNOSTIC_ONLY for this observation; PASS/FAIL are not valid for O6 and it can never block or satisfy any acceptance gate (enforced by check-package.mjs)." },
     { "id": "O7", "question": "Kimlik doğrulaması olmadan hangi testler çalışabiliyor?", "expected": "Table of which of O1-O6 completed with auth_mode NONE, and where the CLI stopped (login prompt / error).", "observed": null, "status": "NOT_TESTED", "evidence_kind": "STARTUP_LOG", "evidence_sha256": null, "max_claim": "NONE", "notes": "Default sandbox has no network and no credentials; a mock endpoint is an extra owner decision." }
   ]
 }

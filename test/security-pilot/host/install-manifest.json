@@ -1,0 +1,40 @@
+{
+  "schema": "7allab-k205c-host-install/0.1",
+  "files": [
+    {
+      "source": "test/security-pilot/host/managed-settings.json",
+      "target": "managed-settings.json",
+      "sha256": "7FAB68AE132F082EE3FCD6698BEAA232B6CC9579B2699B2B1943A962C9F20BE7"
+    },
+    {
+      "source": "scripts/identity-gate.mjs",
+      "target": "security/identity-gate.mjs",
+      "sha256": "CB83A3AD54D759FE9CF2F782D3F620D1DA3311588B42961975EFACEF3AC0435A"
+    },
+    {
+      "source": "scripts/guard.mjs",
+      "target": "security/guard.mjs",
+      "sha256": "6DB9C5474333B6FED31019F880C8B10507E304122A841A7C4650462625312EE8"
+    },
+    {
+      "source": "scripts/guard-scope.mjs",
+      "target": "security/guard-scope.mjs",
+      "sha256": "A4EA9FF7F554A30C21CFA4838D922CFB44C377A8E6916BECB1B9B113732B9053"
+    },
+    {
+      "source": "scripts/decision-gate-event-adapter.mjs",
+      "target": "security/decision-gate-event-adapter.mjs",
+      "sha256": "486E510BE3723E4223BF2B9DE245EF35262A4F5E131BEE8DAF59E6C25BF909FE"
+    },
+    {
+      "source": "scripts/authority-grant.mjs",
+      "target": "security/authority-grant.mjs",
+      "sha256": "B20284F6CA93F77DD8855979B67365E7F248A76952036DCBDC280D71E63277C4"
+    },
+    {
+      "source": "scripts/validate-director-decision.mjs",
+      "target": "security/validate-director-decision.mjs",
+      "sha256": "23EB84F2F526CB5C2F2224F568710FD88EFDBEF10A32E6E0D4647D3F25A9A002"
+    }
+  ]
+}

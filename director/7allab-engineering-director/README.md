@@ -3,13 +3,20 @@
 **Sürüm:** 1.2.14 (candidate)
 **Sahip:** 7ALLAB SOFTWARE
 **Kullanım:** Yalnızca 7ALLAB SOFTWARE iç kullanımı (internal use only).
-**Durum:** CANDIDATE — NOT INSTALLED — EVAL GATE PENDING. Proje kapsamındaki
-iki v1.2.4 kopyası aynı hash'e sahip değildir; kullanıcı-senkron v1.2.3 ayrıca
-gözlenmiştir. Hiçbiri bu adayın kabulü veya çalışma zamanı kimliği değildir.
+**Durum:** CANDIDATE — NOT INSTALLED. Zorunlu koordinasyon eval kümesi (13
+senaryo, 17 koşu) **17/17 PASS**; D10 ve D11 RATIFIED; E4 attribution/freeze
+zinciri doğrulandı. Bu eval sonucu kurulum, runtime testi veya operasyonel
+kabul DEĞİLDİR; bağımsız insan güvenlik incelemesi ve operasyonel kabul
+tamamlanmamıştır. Proje kapsamındaki iki v1.2.4 kopyası aynı hash'e sahip
+değildir; kullanıcı-senkron v1.2.3 ayrıca gözlenmiştir. Bu eski kopyaların
+hiçbiri bu adayın runtime kimliği değildir.
 
 ## 1.2.14 kimlik ve aktif kapsam uzlaştırması
 
-Durum: **v1.2.14 — CANDIDATE / NOT TESTED / EVAL GATE PENDING.** Bu sürümde
+Durum: **v1.2.14 — CANDIDATE / NOT INSTALLED.** Zorunlu koordinasyon eval
+kümesi (13 senaryo, 17 koşu) **17/17 PASS** (D10/D11 RATIFIED, E4
+attribution/freeze zinciri doğrulandı); bu runtime veya operasyonel kabul
+değildir. Bu sürümde
 aktif geliştirme yalnız 7allab-engineering-office projesidir. APEXO, LIFEACTA
 ve KOVAN, Engineering Office tamamlandıktan sonra onunla geliştirilecek ürün
 adaylarıdır; kesin ürün sırası belirlenmemiştir. Eski APEX sistemi, APEX-API,
@@ -234,7 +241,10 @@ Kurulumdan sonra skill'in listelendiğini ve doğru sürümünün açıldığın
 
 Kurulum tek başına doğrulama değildir: listede görünmesi LISTED, çağrılabilir
 olması AVAILABLE, çağrılıp çıktısının gözlenmesi TESTED anlamına gelir.
-**v1.2.14 NOT TESTED'dır.** v1.2.13 için kayıtlı koşular kabul kapısını
+**v1.2.14'ün zorunlu koordinasyon eval kümesi (13 senaryo, 17 koşu) izole bir
+kopya üzerinden TESTED'dır (17/17 PASS, D10/D11 RATIFIED); ancak bu aday
+hiçbir canlı yüzeyde LISTED veya AVAILABLE değildir, kurulu değildir ve
+VERIFIED_OPERATIONAL değildir.** v1.2.13 için kayıtlı koşular kabul kapısını
 kapatmamıştır ve yeni sürüme aktarılmaz. Bu etiketler gözlem etiketidir; Tool
 Registry statülerinin yerine geçmez (TESTED tek başına VERIFIED_OPERATIONAL
 değildir).
@@ -271,7 +281,7 @@ izleyin ve sonucu doğrulayın.
 | 1.2.3 | N3 düzeltmesi: commit ve push yetkisi stage yetkisi üretmez; stage için kesin dosya listesi ve ayrı açık onay gerekir. |
 | 1.2.4 | **Sözleşme hizalama (P3A-DIRECTOR-ALIGN)**, ratifiye governance 1.1.1 ile: Director = ana oturum mantıksal rolü, sekiz uzman Protocol/Matrix adlarıyla ("QA & Test Engineer"); durum sözlüğü ROLE_SELECTED / AGENT_DISPATCHED / REVIEW_PERFORMED / REVIEW_VERIFIED ve REVIEW_VERIFIED'ın Protocol'e birebir tanımı (HIGH risk bağımsız inceleme kuralı dahil); işlem yetkisi adları AUTHORIZED_SCOPED / AUTHORIZED_PENDING_SCOPE / NOT_AUTHORIZED / DENIED_OR_REVOKED, `PENDING_SCOPE` görev durumlarından çıkarıldı; SEC-01/SEC-02 veri sınıfı ve dış aktarım bölümü (beş alan, fail-closed, ham sır yasağı, güvenilmeyen çıktı); ürün seçimi yalnızca proje sahibinde; eval kabul ölçütleri güncellendi. Davranış değiştiği için D2 uyarınca sessiz düzeltme yerine yeni sürüm. P4'te kısmen ölçüldü (bkz. 1.2.5). |
 | 1.2.5 (candidate) | **P4-DIRECTOR-REMEDIATION**, 1.2.4'ün P4 FAIL kanıtlarına dayalı: koşullu ön planlama bölümü ve KOVAN / APEXO / LIFEACTA proje şablonları (rol seçimi ve koşullu plan, repo doğrulanmamışken de); `description` N2 için daraltıldı (`disable-model-invocation` uygulanmadı); N3 çıktı tutarlılığı (GEREKEN ONAY, işlem niteliğine göre risk, PROHIBITED boş bırakılmaz, ROLE_SELECTED yerine geçmez); `Skill` aracı ajan başlatma yolu değildir ve plan dosyası yazılmaz; eval M1 kapsama tablosu düzeltildi, N4–N11 eklendi. Hiçbir senaryo çalıştırılmadı; kurulu değil. |
-| 1.2.14 (candidate) | **Director kimlik, sıra, kapsam ve Office-first eval uzlaştırması:** aktif geliştirme yalnız Engineering Office; APEXO, LIFEACTA ve KOVAN sonraki ürün adayları ve yalnız sentetik Katman A fixture'ları; eski APEX bileşenleri ve 7ALLAB Web kapsam dışı; rol modeli platform-nötr. v1.2.13 eval kayıtları korundu fakat yeni sürüme aktarılmadı. NOT TESTED; kurulu değil. |
+| 1.2.14 (candidate) | **Director kimlik, sıra, kapsam ve Office-first eval uzlaştırması:** aktif geliştirme yalnız Engineering Office; APEXO, LIFEACTA ve KOVAN sonraki ürün adayları ve yalnız sentetik Katman A fixture'ları; eski APEX bileşenleri ve 7ALLAB Web kapsam dışı; rol modeli platform-nötr. v1.2.13 eval kayıtları korundu fakat yeni sürüme aktarılmadı. Zorunlu koordinasyon eval kümesi (13 senaryo, 17 koşu) izole kopya üzerinde 17/17 PASS (D10/D11 RATIFIED, E4 doğrulandı); kurulu değil, bağımsız insan güvenlik incelemesi ve operasyonel kabul tamamlanmadı. |
 
 ## Bilinen sınırlar
 
@@ -281,8 +291,10 @@ izleyin ve sonucu doğrulayın.
   puanlamasıyla ölçüldü: N3 PASS, N1 PASS (teknik doğruluk INCONCLUSIVE), P1 / P2 /
   P3 / N2 FAIL; sonraki sürümlere aktarılmaz. v1.2.13 için kayıtlı sonuçlarda N1
   NOT TESTED; N2, N9 ve P1-r2 INCONCLUSIVE; P3 ve N10 karışık FAIL/PASS'tir.
-- 1.2.14 sözleşmesi kimlik/kapsam ve Office-first eval uzlaştırmasıdır; hiçbir
-  senaryosu çalıştırılmadı ve bağımsız inceleme yapılmadı (RUNTIME NOT VERIFIED).
+- 1.2.14 sözleşmesi kimlik/kapsam ve Office-first eval uzlaştırmasıdır; zorunlu
+  koordinasyon kümesi (13 senaryo, 17 koşu) izole kopya üzerinde 17/17 PASS
+  (D10/D11 RATIFIED), fakat bağımsız insan güvenlik incelemesi yapılmadı ve
+  operasyonel kabul tamamlanmadı (RUNTIME NOT VERIFIED).
 - Yetki kapsamı değerlendirmesi modelin niyet okumasına dayanır; "devam et"
   gibi belirsiz ifadelerde yanlış pozitif riski açıktır.
 - Diğer skill'lerin kurulu olup olmadığı **UNKNOWN**'dır; SKILL.md'deki

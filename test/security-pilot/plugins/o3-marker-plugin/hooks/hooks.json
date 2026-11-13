@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:\\payload\\bin\\node.exe",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/marker.mjs"]
+          }
+        ]
+      }
+    ]
+  }
+}

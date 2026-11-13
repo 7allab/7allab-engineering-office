@@ -1,0 +1,6 @@
+{
+  "name": "o3-marker-plugin",
+  "description": "Synthetic, harmless, marker-only plugin for K2-05-C O3 (allowManagedHooksOnly comparison). No side effects beyond a timestamped marker line. NOT a real user plugin; never copied from %USERPROFILE%\\.claude or any real profile.",
+  "version": "0.0.0-synthetic",
+  "author": { "name": "7ALLAB SOFTWARE - AI Engineering Office (K2-05-C hazirlik paketi)" }
+}

@@ -1,10 +1,14 @@
 {
-  "_about": "Minimal evidence schema for the future isolated run. Checked by check-package.mjs (hand-rolled, no dependency). Rules: policy LOADED is never PASS for enforcement; evidence_kind MOCK_ENDPOINT or DIRECT_FEED is never presented as real-model evidence; PASS needs evidence_sha256 of an artifact.",
-  "run_required": ["run_id", "date", "claude_version", "claude_sha256", "os_build", "policy_file", "policy_sha256", "package_manifest_sha256", "auth_mode", "network", "observations"],
+  "_about": "Minimal evidence schema for the future isolated run. Checked by check-package.mjs (hand-rolled, no dependency). Rules: policy LOADED is never PASS for enforcement; evidence_kind MOCK_ENDPOINT or DIRECT_FEED is never presented as real-model evidence; PASS needs evidence_sha256 of an artifact. Human-readable acceptance matrix: see ../ACCEPTANCE-CRITERIA.md (K2-05-C hazırlık belgesi, O1-O7). Structural lock: observation O6 can never carry status PASS or be used as an acceptance criterion for any gate (see check-package.mjs checkO6Lock); it is DIAGNOSTIC_ONLY/NOT_TESTED until the owner defines the symptom.",
+  "run_required": ["run_id", "date", "claude_version", "claude_sha256", "os_build", "policy_file", "policy_sha256", "package_manifest_sha256", "auth_mode", "auth_provenance", "network", "observations"],
   "auth_mode_enum": ["NONE", "MOCK_ENDPOINT", "REAL"],
-  "status_enum": ["NOT_TESTED", "PASS", "FAIL", "INCONCLUSIVE", "UNOBSERVABLE"],
+  "auth_provenance_required": ["credential_kind", "endpoint_kind", "source", "evidence_sha256", "notes"],
+  "auth_credential_kind_enum": ["NONE", "SYNTHETIC_SENTINEL", "REAL_CREDENTIAL"],
+  "auth_endpoint_kind_enum": ["NONE", "LOOPBACK_MOCK", "REAL_SERVICE"],
+  "auth_provenance_source_enum": ["TEMPLATE_DEFAULT", "RUNNER_ENVIRONMENT", "EXTERNAL_PROVENANCE_RECORD"],
+  "status_enum": ["NOT_TESTED", "PASS", "FAIL", "INCONCLUSIVE", "UNOBSERVABLE", "DIAGNOSTIC_ONLY"],
   "evidence_kind_enum": ["STATIC", "DIRECT_FEED", "STARTUP_LOG", "MOCK_ENDPOINT", "LIVE_REAL_MODEL"],
   "observation_required": ["id", "question", "expected", "observed", "status", "evidence_kind", "evidence_sha256", "max_claim", "notes"],
   "max_claim_enum": ["LOADED", "HOOK_RAN", "ENFORCEMENT_DIRECT_FEED", "ENFORCEMENT_MOCK_ENDPOINT", "ENFORCEMENT_LIVE", "RELATIVE_BEHAVIOR", "NONE"],
-  "export": "none defined. Evidence stays in C:\\evidence inside the sandbox until the owner chooses a method (see README)."
+  "export": "Option A: separate writable C:\\export mapping, per-run manifest and completion marker; see EXPORT-DESIGN.md."
 }

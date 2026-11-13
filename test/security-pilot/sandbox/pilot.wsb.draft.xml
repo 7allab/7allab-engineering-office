@@ -1,6 +1,9 @@
-<!-- DRAFT ONLY (K2-03-D). Not a .wsb, not validated against a real Windows Sandbox, never executed.
+<!-- DRAFT ONLY (K2-03-D / Task 13 Option-A hazırlığı). Not a .wsb, not validated against a real Windows Sandbox, NEVER EXECUTED in this task.
      Replace __HOST_PAYLOAD_DIR__ with a dedicated folder holding ONLY the files listed in ../payload-manifest.json.
-     No writable mapping is defined on purpose: evidence stays inside the sandbox (C:\evidence); export is an owner decision. -->
+     Replace __HOST_EXPORT_DIR_PLACEHOLDER__ with a UNIQUE, per-run, owner-created export directory (see ../EXPORT-DESIGN.md).
+     It must NEVER be the same directory as the payload folder, and the owner must never auto-delete a prior run's
+     export directory — a new unique directory is required per run. This export mapping is added here only to make
+     Option A ready to apply; it is NOT created or activated by this task. -->
 <Configuration>
   <VGpu>Disable</VGpu>
   <Networking>Disable</Networking>
@@ -15,6 +18,11 @@
       <HostFolder>__HOST_PAYLOAD_DIR__</HostFolder>
       <SandboxFolder>C:\payload</SandboxFolder>
       <ReadOnly>true</ReadOnly>
+    </MappedFolder>
+    <MappedFolder>
+      <HostFolder>__HOST_EXPORT_DIR_PLACEHOLDER__</HostFolder>
+      <SandboxFolder>C:\export</SandboxFolder>
+      <ReadOnly>false</ReadOnly>
     </MappedFolder>
   </MappedFolders>
   <LogonCommand>

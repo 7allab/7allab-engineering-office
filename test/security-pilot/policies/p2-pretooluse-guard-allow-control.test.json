@@ -1,0 +1,53 @@
+{
+  "allowManagedHooksOnly": true,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:\\payload\\bin\\node.exe",
+            "args": [
+              "C:\\payload\\hooks\\probe-marker.mjs"
+            ],
+            "timeout": 10,
+            "onFailure": "block"
+          },
+          {
+            "type": "command",
+            "command": "C:\\payload\\bin\\node.exe",
+            "args": [
+              "C:\\payload\\scripts\\guard.mjs",
+              "C:\\payload\\scripts\\decision-gate-event-adapter.mjs",
+              "--event",
+              "PreToolUse"
+            ],
+            "timeout": 10,
+            "onFailure": "block"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:\\payload\\bin\\node.exe",
+            "args": [
+              "C:\\payload\\hooks\\permission-probe.mjs",
+              "--mode",
+              "allow-fixture-write",
+              "--event",
+              "PermissionRequest"
+            ],
+            "timeout": 10,
+            "onFailure": "block"
+          }
+        ]
+      }
+    ]
+  }
+}

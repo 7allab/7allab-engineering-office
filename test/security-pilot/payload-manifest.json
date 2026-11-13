@@ -8,11 +8,30 @@
     { "from": "scripts/decision-gate-event-adapter.mjs", "to": "scripts/decision-gate-event-adapter.mjs", "sha256": "486e510be3723e4223bf2b9de245ef35262a4f5e131bee8daf59e6c25bf909fe" },
     { "from": "scripts/validate-director-decision.mjs", "to": "scripts/validate-director-decision.mjs", "sha256": "23eb84f2f526cb5c2f2224f568710fd88efdbef10a32e6e0d4647d3f25a9a002" }
   ],
-  "from_this_package": ["policies/*.test.json", "hooks/*.mjs", "fixtures/events.json", "sandbox/inside-sandbox-setup.ps1"],
+  "from_this_package": [
+    "policies/*.test.json",
+    "hooks/*.mjs",
+    "fixtures/events.json",
+    "sandbox/inside-sandbox-setup.ps1",
+    "sandbox/guest-auth-provenance.mjs",
+    "sandbox/guest-result-finalize.mjs",
+    "sandbox/w1b-direct-feed.mjs",
+    "sandbox/w1b-run.ps1",
+    "sandbox/w1b-permission-run.ps1",
+    "sandbox/export-manifest.ps1",
+    "mocks/mock-endpoint.mjs",
+    "plugins/o3-marker-plugin/**",
+    "ACCEPTANCE-CRITERIA.md",
+    "OFFICIAL-DOCS-ALIGNMENT.md",
+    "EXPORT-DESIGN.md",
+    "RUNTIME-PINNING.md",
+    "RUN-ORDER.md"
+  ],
   "owner_must_supply_not_in_repo": [
-    { "to": "bin/node.exe", "why": "Hook commands call C:\\payload\\bin\\node.exe; a clean sandbox has no Node. Version/hash to be recorded by the owner." },
-    { "to": "bin/claude.exe", "why": "Runtime under test (host copy is ~298 MB, 2.1.312). Hash to be recorded in the run." },
+    { "to": "bin/node.exe", "why": "Hook commands call C:\\payload\\bin\\node.exe; a clean sandbox has no Node. Version/hash to be recorded by the owner.", "runtime_pinning_contract": "see RUNTIME-PINNING.md" },
+    { "to": "bin/claude.exe", "why": "Runtime under test (host copy is ~329 MB, pinned candidate version 2.1.319.0 per Task 15; the separate 2.1.318 optional-dependency binary exists on host but is NOT selected). Hash recorded in RUNTIME-PINNING.md and in the external payload's RUNTIME-PINS.json.", "runtime_pinning_contract": "see RUNTIME-PINNING.md; copied (Task 15) only to a new external read-only payload target (real host path not recorded in this repo), never into this repo; sandbox/claude.exe execution NOT performed" },
     { "to": "policy-to-install.txt", "why": "One line naming the policies/*.test.json to install for this run." }
   ],
-  "forbidden_in_payload": ["any .claude profile or credentials file", "any product repo", "API keys or tokens", "user plugins", "imports/ content"]
+  "runtime_pinning_contract_ref": "RUNTIME-PINNING.md",
+  "forbidden_in_payload": ["any .claude profile or credentials file", "any product repo", "API keys or tokens", "user plugins", "imports/ content", "real host/user filesystem paths (use placeholders only)", "commands that delete/clear a prior export directory"]
 }

@@ -1,0 +1,44 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:\\Program Files\\nodejs\\node.exe",
+            "args": [
+              "C:\\Program Files\\7allab-security\\identity-gate.mjs",
+              "C:\\Program Files\\7allab-security\\guard.mjs",
+              "C:\\Program Files\\7allab-security\\decision-gate-event-adapter.mjs",
+              "--event",
+              "PreToolUse"
+            ],
+            "timeout": 10,
+            "onFailure": "block"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:\\Program Files\\nodejs\\node.exe",
+            "args": [
+              "C:\\Program Files\\7allab-security\\identity-gate.mjs",
+              "C:\\Program Files\\7allab-security\\guard.mjs",
+              "C:\\Program Files\\7allab-security\\decision-gate-event-adapter.mjs",
+              "--event",
+              "PermissionRequest"
+            ],
+            "timeout": 10,
+            "onFailure": "block"
+          }
+        ]
+      }
+    ]
+  }
+}
