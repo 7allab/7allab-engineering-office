@@ -293,6 +293,64 @@ Bu karar kurulum, test yürütme, sistem değişikliği, ürün repo erişimi, a
 dispatch, Git işlemi veya K2/K3 kabulü yetkisi değildir. Director 1.2.14'ün
 kabulü değildir; yalnızca ölçüm sözleşmesini geçerli kılar.
 
+## D16 — O4-NC Revision 1 ileriye dönük kabul sözleşmesinin dondurulması
+
+**Durum: RATIFIED — FROZEN (2026-11-13).** Kayıt biçimi D9 ve D4'ün kullandığı
+biçimdir: tarihli, hash'e bağlı proje sahibi kararı.
+
+- **Decision:** O4-NC Revision 1 — Prospective Acceptance Contract Freeze.
+- **Engineering Owner authorization:** Bu sohbet (Claude Code oturumu,
+  2026-11-13) kapsamında Engineering Owner tarafından verilmiş açık onay
+  ("O4-NC v5 — Authorized Governance Freeze Commit"). Bu karar numarası
+  (D16), çalışma ağacındaki en yüksek kayıt olan D15'ten sonraki ilk
+  kullanılmamış numaradır; `D16` ifadesi depoda başka hiçbir yerde geçmiyordu.
+- **Technical review:** `FREEZE_READY` — ayrı, bağımsız, model tabanlı Release
+  & Evidence Reviewer (Plan, salt-okunur görev; yazma engeli kısmen teknik
+  [Write/Edit araçları yok], kısmen talimat tabanlıydı). Sınıf:
+  `MODEL_BASED_TECHNICAL_REVIEW`; `INDEPENDENT_HUMAN_REVIEW=NO`;
+  `REVIEW_VERIFIED=NO`. Reviewer kabulü etkilemeyen düşük riskli önerileri
+  (debug tamlık ölçütü, birkaç ifade tutarsızlığı) ayrıca bildirmiştir; bu
+  karar onları gidermez ve belgeyi değiştirmez.
+- **Frozen artifact:** `docs/O4-NC-REVISION-1-2026-11-12.md` (65426 bayt,
+  398 satır, UTF-8, BOM yok, LF).
+- **Exact SHA-256:**
+  `CB2AB5E6C708E1C0A22BB8A68BFDF1E5346FB14FBFB2C3E0811BAE69CDCC4FE2`
+- **Applicability:** `FUTURE_RUNS_ONLY`.
+- **Historical exclusion:** `R7_EXCLUDED`. R7 ve daha önceki koşuların resmî
+  sonuçları (`PERMISSION_REQUEST_ALLOW_OBSERVED=PASS`,
+  `PRETOOLUSE_DENY_OBSERVED=INCONCLUSIVE`, `O4_NEGATIVE_CONTROL=INCONCLUSIVE`,
+  `S3_ALLOW_OVERRIDE_PREVENTED=NOT_EXERCISED`) değişmez ve bu kriterlerle
+  yeniden sınıflandırılmaz.
+- **Scope:** `ENFORCEMENT_MOCK_ENDPOINT`.
+- **Approval limitation:** Bu karar yalnız kriter belgesini dondurur. Hiçbir
+  runtime testini başarılı saymaz; genel O4, K2-05-C, K2-05-F, K2, K3/K4,
+  O1, O7 veya host-wide attestation kabulünü vermez; kurulum, ajan dispatch,
+  Sandbox veya canlı kampanya, push ya da başka bir Git yetkisi üretmez.
+  Belge §10 ve §15'in Engineering Owner onayını istediği K-4 tanımı ve N-5
+  tasarım ayrımı bu hash'in parçasıdır; bu karar onları değiştirmez.
+  `test/security-pilot/ACCEPTANCE-CRITERIA.md` (SHA-256
+  `BC6974B142D6A73E2A3368FA12383F654E93ADD061E84C71FF0BAE197403E48B`)
+  değiştirilmemiştir.
+
+**`DRAFT — NOT YET FROZEN` ifadesi ile bu kaydın ilişkisi.** Belge bu karar
+nedeniyle değiştirilmemiştir; içindeki `DRAFT — NOT YET FROZEN` ifadesi belgenin
+oluşturulduğu andaki durumdur. Yetkili statü kaydı bu D16 kararıdır. Bu ilişki
+yeni bir kural değildir; mevcut üç hükme dayanır: (1) belgenin Bölüm 13 madde 4'ü
+`DRAFT — NOT YET FROZEN` durumunun dondurma kararıyla yeni bir tarihli kayıtla
+değiştiğini söyler; (2) `ACCEPTANCE-CRITERIA.md` O4-NC bölümü (satır 141–142)
+değişikliklerin yeni, tarihli kayıt olarak eklenmesini ister; (3) README "Kaynak
+önceliği" madde 1, insan tarafından onaylanmış ve Git ile sürümlenmiş politikayı
+en üst kaynak sayar. Karar yalnız yukarıdaki exact SHA-256'ya bağlıdır: dosya
+içeriği bir bayt bile farklıysa bu karar uygulanmaz (Revizyon 1 Bölüm 16/1). Bu
+kayıt bir kampanya planına bağlanmaz ve yürürlüğe alınmış bir revizyon olarak
+kampanya başladıktan sonra değiştirilmez (Bölüm 16/7).
+
+**Commit durumu notu.** Bu kayıt, `docs/DECISIONS-REQUIRED.md` dosyasındaki diğer
+commit edilmemiş kullanıcı değişikliklerinden (D10–D15 ve diğer eklemeler) ayrı,
+izole bir commit ile Git'e girer. Commit edilmiş sürümde D10–D15 bu yüzden
+bulunmaz; bu numaralar çalışma ağacında kayıtlıdır ve ayrı yetkiyle commit
+edilmeyi bekler.
+
 ## Bilerek kabul edilen açık istisnalar
 
 1. **Charter:** önceki tam incelemeden sonra adaptör referansı eklendi; tam Charter
@@ -345,3 +403,4 @@ sahibinin kararıdır.
 - D7: RATIFIED — REVISED — active development is only 7allab-engineering-office; APEXO, LIFEACTA and KOVAN are deferred product candidates after Engineering Office completion, with order undecided; legacy APEX and 7ALLAB Web remain outside scope; does not authorize product-repo access or writes, APEX deletion/reactivation, Git, test execution, installation, dispatch, or K2/K3/K4 acceptance
 - D8: RATIFIED — K2-05-A host/runtime baseline, K2-05-D model-external authority ledger, K2-05-E secrets/data-transfer boundary, and K2-05-F integrated acceptance/rollback definitions; does not authorize implementation, test execution, system changes, Git, or K2 acceptance
 - D9: RATIFIED — eval measurement contract repair K1-02 ratified as K1-02-R2; E1 confirmed by pilot evidence, E2 amended so criterion 10 is measured only when adapter-sourced content appears in the output (otherwise N/A), E3 accepted as written; a dedicated criterion-10 scenario is deferred until project adapters are ratified; does not accept Director 1.2.14 or authorize installation, dispatch, Git, product-repo access, or K2/K3 acceptance
+- D16: RATIFIED — O4-NC Revision 1 (v5, SHA-256 `CB2AB5E6C708E1C0A22BB8A68BFDF1E5346FB14FBFB2C3E0811BAE69CDCC4FE2`) ileriye dönük kabul sözleşmesi olarak donduruldu (2026-11-13); `FUTURE_RUNS_ONLY`, `R7_EXCLUDED`, `ENFORCEMENT_MOCK_ENDPOINT`; belge değiştirilmedi, harici hash'e bağlı bu kayıt yetkili statü kaydıdır; runtime PASS, genel O4, K2-05-C/F, K2, K3/K4 kabulü, kurulum, dispatch, kampanya veya push yetkisi değildir
