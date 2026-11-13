@@ -108,7 +108,7 @@ test('other tools are not this hook\'s business', () => {
 // ---- process level: stdin handling (BOM from Windows PowerShell 5.1 pipes, garbage input)
 import { spawnSync } from 'node:child_process';
 const HOOK = new URL('../.claude/hooks/scope-guard.mjs', import.meta.url);
-const run = (input) => spawnSync(process.execPath, [HOOK.pathname.replace(/^\/([A-Za-z]:)/, '$1'), ROOT], { input, encoding: 'utf8' });
+const run = (input) => spawnSync(process.execPath, [HOOK.pathname.replace(/^\/([A-Za-z]:)/, '$1'), ROOT], { input, encoding: 'utf8', env: { ...process.env, SCOPE_GUARD_NO_LOG: '1' } });
 const GIT_STATUS = JSON.stringify({ tool_name: 'Bash', tool_input: { command: 'git status' } });
 const GIT_PUSH = JSON.stringify({ tool_name: 'Bash', tool_input: { command: 'git push' } });
 test('process: plain JSON on stdin is decided', () => {

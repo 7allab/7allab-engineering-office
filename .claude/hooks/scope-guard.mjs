@@ -3,8 +3,8 @@
 //        (2) a per-role shell allowlist for subagents, (3) accident prevention for the main (Director) session's shell.
 // It is NOT a security boundary against a hostile shell: shell text cannot be bounded by lexical checks
 // (see scripts/guard-scope.mjs, SHELL_NOT_BOUNDABLE). Every failure path blocks (exit 2). Silence means "no opinion".
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { readFileSync, appendFileSync } from 'node:fs';
+import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { classifyPath } from '../../scripts/guard-scope.mjs';
 
@@ -128,6 +128,20 @@ export function decide(event, ctx = {}) {
   }
 }
 
+// One JSON line per decision, so "did the hook run and what did it return" is a record, not a guess.
+// Never logs command text beyond its first two words. Logging can never change a decision.
+function logDecision(event, d) {
+  if (process.env.SCOPE_GUARD_NO_LOG === '1') return;
+  try {
+    const cmd = event?.tool_input?.command;
+    const line = JSON.stringify({
+      t: new Date().toISOString(), tool: event?.tool_name ?? null, agent: event?.agent_type ?? null, action: d.action,
+      head: typeof cmd === 'string' ? cmd.split(' ').slice(0, 2).join(' ') : undefined, reason: String(d.reason).slice(0, 160),
+    });
+    appendFileSync(resolve(dirname(fileURLToPath(import.meta.url)), 'scope-guard.log'), line + '\n');
+  } catch { /* ignore */ }
+}
+
 const defaultReadScope = (root) => JSON.parse(readFileSync(resolve(root, '.claude', 'task-scope.json'), 'utf8').replace(/^﻿/, ''));
 
 async function main() {
@@ -137,6 +151,7 @@ async function main() {
   let event;
   try { event = JSON.parse(raw.replace(/^\uFEFF/, '')); } catch { event = null; } // Windows PowerShell 5.1 pipes may prepend a UTF-8 BOM
   const d = decide(event, { root, readScope: () => defaultReadScope(root) });
+  logDecision(event, d);
   if (d.action === 'deny') { process.stderr.write(`[scope-guard] BLOCKED: ${d.reason}\n`); process.exit(2); }
   if (d.action === 'ask') {
     process.stdout.write(JSON.stringify({ hookSpecificOutput: { hookEventName: 'PreToolUse', permissionDecision: 'ask', permissionDecisionReason: `[scope-guard] ${d.reason}` } }));
