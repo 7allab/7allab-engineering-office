@@ -16,3 +16,11 @@ Task state lives in this file, not in the chat. A new session reads it and conti
 ## Evidence (real command output only; unrun = NOT TESTED)
 
 ## Open decisions / remaining work
+
+## Measurement (Owner fills; unmeasured = NOT MEASURED, never estimate)
+- Model + effort per stage: planner <m/e> | implementation <m/e> | QA <m/e> | reviewer <m/e> | other <m/e>
+- /usage before: <value, time>        /usage after: <value, time>        (D18 campaigns: mandatory)
+- Wall-clock time: <start - end>
+- Changed lines: <paste `git diff --shortstat` output>
+- Defects found: <count + stage that found it (QA / reviewer / Owner / CI) + one line each>
+- Red/green evidence: <test name, red output ref, green output ref, Owner reproduced YES/NO>

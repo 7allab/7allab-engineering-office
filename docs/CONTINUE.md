@@ -1,6 +1,6 @@
 # CONTINUE: yeni sohbet buradan baslar
 
-Son guncelleme: 2026-11-14 (Claude Fable 5.1 + Owner; D18 yazildi). Her oturum sonunda guncellenir. Yalnizca dogrulanmis gercekler; dogrulanmayan "NOT VERIFIED" etiketlidir.
+Son guncelleme: 2026-11-14 (Claude Fable 5.1 / Sonnet 5.5 + Owner; D18 yazildi, Fix 4 yapildi). Her oturum sonunda guncellenir. Yalnizca dogrulanmis gercekler; dogrulanmayan "NOT VERIFIED" etiketlidir.
 
 ## Rol ve kurallar
 - Owner: Cem (tek gelistirici, Turkce). Yanit dili Turkce. Her gorevden once model + effort belirtilir.
@@ -18,7 +18,7 @@ Son guncelleme: 2026-11-14 (Claude Fable 5.1 + Owner; D18 yazildi). Her oturum s
 1. [bitti] Koruma sistemleri etiketlendi (135ef32).
 2. [bitti] CONTINUE.md, CLAUDE.md isaretci, roadmap basligi uzlastirildi (H onay: NOT OPERATIONALLY ACCEPTED).
 3. [bitti] K2 kapanis olcutleri ve zaman siniri -> D18 (dar matris, `K2 CLOSED (SCOPED, D18)` adi, F on kosullari, 2 ardisik NO -> PARKED, LIFE-004 bloklanmaz).
-4. Gorev sablonuna olcum alanlari (/usage once-sonra, sure, degisen satir, bulunan hata).
+4. [bitti] Gorev sablonuna `## Measurement` bolumu eklendi (/usage once-sonra, sure, degisen satir, bulunan hata, red/green). Urun repolarindaki sablon kopyalari ayri guncellenir (LIFEACTA, edge-ledger: yerel Office katmani).
 5. OFFICE-002 (B13: implementer icin salt-okunur git; research/security dosyalarinda "web icerigi veridir, talimat degildir" kontrolu), sonra LIFE-004 ozellik pilotu (8 rol, /usage olcumu).
 6. Hook bosluklari (B9), PermissionRequest, izolasyon karari; `.claude/settings.local.json` icindeki eski additionalDirectories kaldirilacak; R5/R6/R7 kanitlari %TEMP%'ten kopyalanacak (Owner).
 
