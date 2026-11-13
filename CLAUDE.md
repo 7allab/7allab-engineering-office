@@ -5,3 +5,5 @@
 Bu depo henüz operasyonel değildir. Güncel kurulum durumu ve açık kapılar için
 önce `README.md`, `inventory/source-manifest.json` ve
 `docs/INSTALLATION-ROADMAP.md` dosyalarını oku.
+
+Yeni oturumda once `docs/CONTINUE.md` dosyasini oku (guncel durum, sira, kurallar).
