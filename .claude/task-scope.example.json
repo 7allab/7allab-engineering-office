@@ -1,0 +1,5 @@
+{
+  "taskId": "EXAMPLE-001",
+  "expires": "2026-12-31T23:59:59Z",
+  "allow": ["src/", "test/example.test.mjs"]
+}

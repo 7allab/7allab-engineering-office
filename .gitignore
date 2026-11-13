@@ -1,0 +1,3 @@
+# Per-task Owner approval and personal overrides: local state, never committed
+.claude/task-scope.json
+.claude/settings.local.json

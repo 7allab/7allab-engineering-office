@@ -8,7 +8,7 @@
 - Kullanıcının mevcut ve izlenmeyen dosyalarını koru; reset, clean, zorla checkout veya silme yapma.
 - Ürün reposunda çalışmadan önce gerçek repo kökünü, branch/ref bilgisini ve dirty-tree envanterini doğrula.
 - Test çalıştırılmadıysa NOT TESTED; sentetik kontrolü canlı veya bağımsız kanıt gibi sunma.
-- Bu bootstrap aşamasında remote oluşturma, commit, push, global skill kurulumu veya Agent Teams etkinleştirme yapma.
+- Remote oluşturma, push, global skill kurulumu ve Agent Teams etkinleştirme yapma. Commit yalnızca feature branch'e ve Owner'ın o işlem için verdiği açık onayla yapılır.
 
 ## Kod yazma ilkeleri
 
@@ -20,3 +20,12 @@
   İlgisiz ölü kod veya sorun görürsen silme, sadece bildir.
 - Görevi doğrulanabilir başarı ölçütüne çevir (örneğin önce başarısız
   bir test yaz), ölçüt sağlanana kadar devam et.
+
+## Faz 1 çalışma düzeni (13.11.2026)
+
+- Sekiz uzman `.claude/agents/` altındaki gerçek subagent tanımlarıdır; Director ana oturumdur.
+- Yazma yetkisi görev başına Owner'ın oluşturduğu `.claude/task-scope.json` ile verilir (örnek: `.claude/task-scope.example.json`). Dosya yoksa ya da süresi dolmuşsa hiçbir ajan yazamaz.
+- `.claude/`, `.git/`, `governance/`, `imports/`, `inventory/`, `AGENTS.md`, `CLAUDE.md` ajanlar için yazılamaz; bunları yalnızca Owner değiştirir.
+- Stage, commit ve push ayrı kapılardır: Director `git add`/`git commit` için Owner'a sorar; push yoktur.
+- Görev durumu oturumda değil `docs/tasks/<id>.md` dosyasındadır (şablon: `docs/tasks/_TEMPLATE.md`).
+- `test/security-pilot/` dondurulmuştur (`office-v0-security-pilot-frozen`); yeni kampanya, authority ledger veya attestation işi açılmaz.
