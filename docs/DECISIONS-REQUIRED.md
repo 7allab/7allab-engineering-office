@@ -1465,3 +1465,43 @@ Statüler: `O4 INCONCLUSIVE`, `K2-05-C UNVERIFIED`, `K2-05-F NOT_ACCEPTED`, `K2 
 - Degismeyenler: K2 NOT VERIFIED, AUTHORITY.implemented=false, K3/K4 BLOCKED, REVIEW_VERIFIED=NO. Bu mod K3/K4 PASS sayilmaz.
 - Kanit: LIFEACTA PR #6 ve #7, edge-ledger PR #1 ve #2 (Owner bagimsiz kirmizi/yesil dogrulamasi ile).
 - K2/VM kapanis hatti ayri bir hat olarak surer (tek K2 kabul matrisi). Uretim-ready veya otonom calisma iddiasi K2 kapanmadan yapilamaz.
+
+## D18 - K2 kapanis olcutleri (dar matris) ve zaman siniri - 2026-11-14 OWNER APPROVED
+
+**Durum: RATIFIED (2026-11-14, Owner; Claude Fable 5.1 ile hazirlandi).** T0 = 2026-11-14.
+
+**Kapsam ve ad.** K2, D8'in A-F kapilarinin asagidaki DONDURULMUS dar alt kumesiyle kapatilir. Kapanis adi yalnizca `K2 CLOSED (SCOPED, D18)` olur; `K2 VERIFIED` kullanilmaz. Bu karar D8 tanimlarini degistirmez; D8'in dar matris disinda kalan kisimlari kalici artik-risk defterine yazilir. Uretim-ready veya otonom calisma iddiasi bu kapanisla da yapilamaz.
+
+**Dar kabul matrisi (degismez):**
+- **A:** Iki eski Director kopyasi (project `.claude/skills` v1.2.4, synced v1.2.3) karantinaya alinir (tasima; silme degil). Kanit: karantina sonrasi salt-okunur envanter. -> `PASS`.
+- **B:** Ag kabul testi yapilmaz (D12/D15 yonu). D15 cevrimdisi aktarim mekanizmasi icin 1 pozitif + 2 negatif test. -> `PASS (OFFLINE-TRANSFER SCOPE)`. Ag izolasyonunun pozitif kabulu kalici artik risk olarak kaydedilir.
+- **C:** Write icin canli pozitif + negatif kontrol (ACCEPTANCE-CRITERIA.md O4 negatif kontrolu); PermissionRequest S1/S2 (R6 kanitiyla) + S3; Bash icin ya olcum ya da "kapsam disi, artik risk" acik kaydi. FAIL/INCONCLUSIVE yeniden adlandirilmaz.
+- **D:** K2-05-D kapsamindaki 4 dosyanin SHA-256 + provenans kaydi. G1 entegrasyonu ve cc-agent kalici kurulum karari K3'e ertelenir.
+- **E:** K2-05-E kapsamindaki 4 dosyanin SHA-256 + provenans kaydi. G1 ile entegrasyon `NOT TESTED` olarak K3'e ertelenir.
+- **F:** Tek bagimsiz inceleme turu. On kosullar: (1) reviewer, verdict oncesi calistirdigi komut listesini ve ciktilarin SHA-256'larini dosyaya yazar; 0 bayt veya eksik transcript = inceleme yapilmamis sayilir; (2) Owner bu listeden en az bir komutu bagimsiz calistirir ve cikti hash'ini karsilastirir; eslesmezse `REVIEW_VERIFIED=NO`. Kanitli gecmis: genel O4 kapsaminda hicbir turda `REVIEW_VERIFIED=YES` verilmemistir (R4'un YES'i yalniz hedefli remediation kapsamidir, `docs/W1B-R4-INDEPENDENT-REVIEW-2026-11-11.md`); R5 reviewer transcript'i diskte 0 bayttir (`docs/W1B-R5-INDEPENDENT-REVIEW-2026-11-11.md`); R6 `READY_WITH_CONDITIONS`, `REVIEW_VERIFIED=NO` (`docs/W1B-R6-RECORD-2026-11-12.md`). R7 (`k205c-w1b-r7-20261112-193649-129a4d04`) repoda resmi kayda girmemistir; kanit sayilmaz (D16 `R7_EXCLUDED`).
+
+**Zaman siniri ve dusus kurali:**
+- Ara kontrol T0+10 (2026-11-24): A/C/D/E'den en az 3'u PASS degilse erken dusus.
+- Sert son T0+21 (2026-12-05); en fazla 2 canli kampanya; uzatma yok.
+- F'de ardisik 2 basarisiz deneme (`REVIEW_VERIFIED=NO`) -> tarih beklenmeden dusus.
+- Dusus = Secenek C: K2 `PARKED` olur, D17 native modu kalici calisma modu olur, artik-risk defteri yazilir, K3/K4 native katman etrafinda yeniden tanimlanir (ayri karar). "Uretim-ready/otonom" iddiasi hicbir zaman yapilmaz.
+
+**Olcum:** Her kampanya kaydinda `/usage` once-sonra zorunlu alandir (Fix 4 gorev sablonuyla ayni alan adlari).
+
+**Urun isiyle iliski:** K2, LIFE-004 pilotunu veya D17 kapsamindaki urun isini bloklamaz. D17 sinirlari aynen gecerlidir.
+
+**Reddedilen secenekler:** (A) Tam D8 K2 — B harici engelli (`EXTERNAL_BLOCKER`), kapanma suresi `OLCULMEMIS TAHMIN` (6-8 hafta) ve kapanma garantisi yok. (C) Dogrudan PARKED — 3 haftalik kapali uclu deneme yapilmadan erken.
+
+**Harici girdi (yetki degil):** ChatGPT raporu `7ALLAB_Engineering_Office_Tam_Proje_Haritasi_Teknik_Durum_Roadmap_2026-11-13.pdf`, 26 sayfa, SHA-256 `b4a7411593a8c9b9fe56bc1b6b07aad7ca9aa1ae6cf0bba9003c10d4a9171afb` (CreationDate 2026-11-13 11:04:49 UTC). Rapor kendi beyaniyla canli disk envanteri degildir; icindeki durumlar kanit sayilmaz. D8 ile capraz kontrol:
+
+| Kapi | PDF tanimi | D8 tanimi | Fark |
+|---|---|---|---|
+| A | VM ve host isolation | Host/runtime guvenlik tabani | Tanim kaymasi; D8 gecerli |
+| B | Ag izolasyonu ve izinli egress | Ag izolasyonu | PDF D12 kararini yansitmiyor; D18 D12'yi izler |
+| C | Policy/hooks, negatif test | Managed-hook guven siniri | Uyumlu; PDF'in S3/cift PreToolUse/L-5 istekleri: S3 D18'de, digerleri ertelenebilir (R6 kaydiyla uyumlu) |
+| D | Host-guest SSH, snapshot, overlay | Model-disi yetki defteri | Tanim cakismasi; PDF'in D'si D8'de yok |
+| E | Runtime koruma, attestation, restore | Sir ve veri aktarim siniri | Tanim cakismasi; D8-E PDF'te hic yok |
+| F | Authority ledger, tek-seferlik yazma | Butunlesik kabul + bagimsiz insan incelemesi | PDF F'yi D8-D ile karistirmis; "model reviewer insan review yerine gecmez" maddesi D18 ile uyumlu |
+| K4 | K2 kapanmadan urun yazmasina gecilmez | - | D17 ile celisir; D17 gecerli |
+
+Bu karar kurulum, test yurutme, sistem degisikligi, urun repo erisimi, ajan dispatch, Git islemi veya K2/K3/K4 kabulu yetkisi degildir; her kampanya ayri acik yetki ister.
