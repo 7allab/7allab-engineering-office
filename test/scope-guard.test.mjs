@@ -174,3 +174,20 @@ test('git read (PowerShell): plain in-repo read commands still pass', () => {
     for (const c of ['git status --short', 'git diff --stat AGENTS.md CLAUDE.md', 'git diff main..HEAD', 'git show HEAD:src/a.js', 'git log --oneline -5'])
       assert.equal(act(sh(c, agent, 'PowerShell')), 'pass', `${agent}: ${c}`);
 });
+
+// OFFICE-003 N1: Bash-tool variants of the three tests above (same candidates, same roles).
+test('git read (Bash): drive-relative and drive-dot-dot tokens are denied', () => {
+  for (const agent of GIT_READ_AGENTS)
+    for (const arg of ['C:x', 'C:..', 'C:../x', 'C:AGENTS.md', 'c:x'])
+      assert.equal(act(sh(`git diff --stat ${arg} CLAUDE.md`, agent, 'Bash')), 'deny', `${agent}: ${arg}`);
+});
+test('git read (Bash): @-prefixed tokens are denied', () => {
+  for (const agent of GIT_READ_AGENTS)
+    for (const arg of ['@PROFILE', '@args', '@'])
+      assert.equal(act(sh(`git status ${arg}`, agent, 'Bash')), 'deny', `${agent}: ${arg}`);
+});
+test('git read (Bash): plain in-repo read commands still pass', () => {
+  for (const agent of GIT_READ_AGENTS)
+    for (const c of ['git status --short', 'git diff --stat AGENTS.md CLAUDE.md', 'git diff main..HEAD', 'git show HEAD:src/a.js', 'git log --oneline -5'])
+      assert.equal(act(sh(c, agent, 'Bash')), 'pass', `${agent}: ${c}`);
+});
