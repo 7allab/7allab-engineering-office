@@ -74,8 +74,41 @@ test('shell: qa and implementation may run plain test commands only', () => {
     for (const ok of ['node --test test/a.test.mjs', 'npm test', 'npm run test:unit', 'npm run lint'])
       assert.equal(act(sh(ok, a)), 'pass', `${a}: ${ok}`);
     for (const bad of ['node --test x; rm -rf /', 'node --test x && git push', 'npm test | tee out', 'node --test x > out.txt',
-      'node -e "process.exit()"', 'node --test --import ./evil.mjs', 'npm run deploy', 'git status', 'node --test  x', '$(whoami)', 'node --test `id`'])
+      'node -e "process.exit()"', 'node --test --import ./evil.mjs', 'npm run deploy', 'node --test  x', '$(whoami)', 'node --test `id`'])
       assert.equal(act(sh(bad, a)), 'deny', `${a}: ${bad}`);
+  }
+});
+test('shell: qa-test-engineer gets no git (OFFICE-002 leaves qa unchanged)', () => {
+  for (const bad of ['git status', 'git diff'])
+    assert.equal(act(sh(bad, 'qa-test-engineer')), 'deny', bad);
+});
+test('shell: implementation-engineer may also run read-only git (B13), never state-changing git', () => {
+  const a = 'implementation-engineer';
+  for (const ok of ['git diff', 'git diff --stat', 'git log -5', 'git status', 'git show HEAD', 'git rev-parse HEAD', 'git branch --show-current', 'node --test test/a.test.mjs', 'npm test'])
+    assert.equal(act(sh(ok, a)), 'pass', ok);
+  for (const bad of ['git commit -m x', 'git push', 'git add .', 'git diff --output=out.txt', 'git diff --ext-diff', 'git -c core.pager=x diff', 'git branch -D x', 'git diff; git push', 'git checkout main', 'git apply x.patch'])
+    assert.equal(act(sh(bad, a)), 'deny', bad);
+});
+test('shell: git --no-index (reads arbitrary files, bypasses Read deny) is denied for implementation and reviewer', () => {
+  for (const a of ['implementation-engineer', 'release-evidence-reviewer'])
+    for (const bad of ['git diff --no-index nul .env', 'git diff --no-index a b', 'git diff --no-index'])
+      assert.equal(act(sh(bad, a)), 'deny', `${a}: ${bad}`);
+});
+test('shell: abbreviated dangerous git options are denied (prefix of --output/--ext-diff/--textconv/--no-index/--exec-path), harmless flags still pass', () => {
+  for (const a of ['implementation-engineer', 'release-evidence-reviewer']) {
+    for (const bad of ['git diff --no-i', 'git diff --no-ind', 'git diff --outp=x', 'git diff --ou=x', 'git diff --ext-d', 'git diff --textc', 'git diff --e', 'git log --exec', 'git show --open-f'])
+      assert.equal(act(sh(bad, a)), 'deny', `${a}: ${bad}`);
+    for (const ok of ['git diff --stat', 'git diff --name-only', 'git diff --cached', 'git diff --no-color', 'git log --oneline -5', 'git log --stat -3', 'git status --short', 'git show --stat HEAD'])
+      assert.equal(act(sh(ok, a)), 'pass', `${a}: ${ok}`);
+  }
+});
+test('shell: backslash-escaped options and paths outside the work tree are denied for git read (reviewer finding: Bash strips the backslash, git then runs --no-index)', () => {
+  for (const a of ['implementation-engineer', 'release-evidence-reviewer']) {
+    for (const bad of ['git diff \\--no-index --stat AGENTS.md CLAUDE.md', 'git diff \\--output=x', 'git diff --out\\put=x', 'git diff src\\a.ts',
+      'git diff ../x .env', 'git diff C:/x .env', 'git diff /etc/hosts .env', 'git diff a/../b .env', 'git diff --output out.txt', 'git diff --git-dir=x', 'git diff --work-tree=x'])
+      assert.equal(act(sh(bad, a)), 'deny', `${a}: ${bad}`);
+    for (const ok of ['git log --oneline -n 5', 'git diff -- .claude test', 'git show HEAD --stat', 'git diff main..HEAD', 'git show HEAD:docs/CONTINUE.md', 'git status --short', 'git diff --stat'])
+      assert.equal(act(sh(ok, a)), 'pass', `${a}: ${ok}`);
   }
 });
 test('shell: PowerShell tool follows the same allowlist', () => {
@@ -122,4 +155,22 @@ test('process: a UTF-8 BOM before the JSON is tolerated (and the decision is sti
 test('process: empty or garbage stdin blocks', () => {
   assert.equal(run('').status, 2);
   assert.equal(run('not json').status, 2);
+});
+
+// OFFICE-002 REVIEW 3: drive-relative (C:x, C:.., C:../x) and @-splatting tokens must not pass the git read allowlist.
+const GIT_READ_AGENTS = ['implementation-engineer', 'release-evidence-reviewer'];
+test('git read (PowerShell): drive-relative and drive-dot-dot tokens are denied', () => {
+  for (const agent of GIT_READ_AGENTS)
+    for (const arg of ['C:x', 'C:..', 'C:../x', 'C:AGENTS.md', 'c:x'])
+      assert.equal(act(sh(`git diff --stat ${arg} CLAUDE.md`, agent, 'PowerShell')), 'deny', `${agent}: ${arg}`);
+});
+test('git read (PowerShell): @-prefixed splatting tokens are denied', () => {
+  for (const agent of GIT_READ_AGENTS)
+    for (const arg of ['@PROFILE', '@args', '@'])
+      assert.equal(act(sh(`git status ${arg}`, agent, 'PowerShell')), 'deny', `${agent}: ${arg}`);
+});
+test('git read (PowerShell): plain in-repo read commands still pass', () => {
+  for (const agent of GIT_READ_AGENTS)
+    for (const c of ['git status --short', 'git diff --stat AGENTS.md CLAUDE.md', 'git diff main..HEAD', 'git show HEAD:src/a.js', 'git log --oneline -5'])
+      assert.equal(act(sh(c, agent, 'PowerShell')), 'pass', `${agent}: ${c}`);
 });

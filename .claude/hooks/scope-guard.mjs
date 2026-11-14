@@ -78,14 +78,20 @@ const isTestCmd = (t) => {
   if (t[0] === 'npm' && t[1] === 'run') return /^(test|lint|check|build)[\w:-]*$/.test(t[2] ?? '');
   return false;
 };
+// git accepts unambiguous prefixes of some long options (e.g. --no-ind, --outp), so deny any --name that is a prefix of a dangerous option.
+const DANGEROUS_LONG = ['--output', '--ext-diff', '--textconv', '--no-index', '--exec-path', '--open-files-in-pager', '--git-dir', '--work-tree'];
+const isDangerousPrefix = (x) => { if (!x.startsWith('--')) return false; const n = x.split('=')[0]; return n.length >= 3 && DANGEROUS_LONG.some((d) => d.startsWith(n)); };
+// Bash strips a backslash before running the command, so `\--no-index` becomes `--no-index`: refuse any backslash.
+// git switches to no-index mode (reads arbitrary files) when a path argument is outside the work tree: refuse `..` segments, absolute and drive paths.
+const isEscapedOrOutside = (x) => x.includes('\\') || /(^|[\/:])\.\.(\/|$)/.test(x) || x.startsWith('@') || (!x.startsWith('-') && (x.startsWith('/') || /^[A-Za-z]:/.test(x)));
 const GIT_READ_SUB = ['diff', 'log', 'status', 'show', 'rev-parse', 'ls-files'];
 const isGitRead = (t) => {
   if (!t || t[0] !== 'git') return false;
   if (t[1] === 'branch') return t.length === 3 && t[2] === '--show-current';
   if (!GIT_READ_SUB.includes(t[1])) return false;
-  return !t.slice(2).some((x) => /^(--output|--ext-diff|--textconv|-c$|--exec-path|--open-files-in-pager)/.test(x));
+  return !t.slice(2).some((x) => /^(--output|--ext-diff|--textconv|--no-index|-c$|--exec-path|--open-files-in-pager)/.test(x) || isDangerousPrefix(x) || isEscapedOrOutside(x));
 };
-const SHELL_RULES = { 'qa-test-engineer': isTestCmd, 'implementation-engineer': isTestCmd, 'release-evidence-reviewer': isGitRead };
+const SHELL_RULES = { 'qa-test-engineer': isTestCmd, 'implementation-engineer': (t) => isTestCmd(t) || isGitRead(t), 'release-evidence-reviewer': isGitRead };
 
 // ---- shell. Main (Director) session: accident prevention only; the human stays in the loop.
 const DANGEROUS = [
