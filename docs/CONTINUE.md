@@ -33,3 +33,7 @@ Son guncelleme: 2026-11-14 (Claude Fable 5.1 / Sonnet 5.5 + Owner; D18 yazildi, 
 1. Bu dosyayi, sonra `docs/backlog.md` ve `docs/DECISIONS-REQUIRED.md` sonunu oku.
 2. Klasor baglantisini dogrula (dosyalar okunabiliyor mu).
 3. `git log --oneline -5` ve `git status --short` ile bu dosyanin hala guncel oldugunu kontrol et.
+
+## Durum eki (2026-11-14, OFFICE-003)
+- OFFICE-003 tamamlandi: commit 0733e96 (task/office-003-git-read-oracle). git-read oracle (`test/scope-guard-oracle.test.mjs`) + N1 Bash varyantlari; oracle KNOWN_OPEN v1 FINAL (38 kayit, Owner onayli). Ayrinti: `docs/tasks/OFFICE-003.md`, `docs/GUARD-SYSTEMS.md` bolum 5. Yukaridaki "OFFICE-003 (ERTELENMIS, acilmadi)" satiri tarihseldir; N3 icin OFFICE-003.md'ye bak. [AGENT]
+- Bir sonraki gorev: hook icin default-deny allowlist (yuksek oncelik); oracle onun regresyon harnessi olacak. [AGENT]
