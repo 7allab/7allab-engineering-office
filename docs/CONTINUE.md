@@ -1,6 +1,7 @@
 # CONTINUE: yeni sohbet buradan baslar
 
 Son guncelleme: 2026-11-14 (Claude Fable 5.1 / Sonnet 5.5 + Owner; D18 yazildi, Fix 4 yapildi, OFFICE-002 main'e merge edildi: e8ac883). Her oturum sonunda guncellenir. Yalnizca dogrulanmis gercekler; dogrulanmayan "NOT VERIFIED" etiketlidir.
+Son guncelleme (2): 2026-11-15 (OFFICE-004: git-read default-deny allowlist, kod commit'i 6ba62ae; main'e merge Owner adimi).
 
 ## Rol ve kurallar
 - Owner: Cem (tek gelistirici, Turkce). Yanit dili Turkce. Her gorevden once model + effort belirtilir.
@@ -37,3 +38,10 @@ Son guncelleme: 2026-11-14 (Claude Fable 5.1 / Sonnet 5.5 + Owner; D18 yazildi, 
 ## Durum eki (2026-11-14, OFFICE-003)
 - OFFICE-003 tamamlandi: commit 0733e96 (task/office-003-git-read-oracle). git-read oracle (`test/scope-guard-oracle.test.mjs`) + N1 Bash varyantlari; oracle KNOWN_OPEN v1 FINAL (38 kayit, Owner onayli). Ayrinti: `docs/tasks/OFFICE-003.md`, `docs/GUARD-SYSTEMS.md` bolum 5. Yukaridaki "OFFICE-003 (ERTELENMIS, acilmadi)" satiri tarihseldir; N3 icin OFFICE-003.md'ye bak. [AGENT]
 - Bir sonraki gorev: hook icin default-deny allowlist (yuksek oncelik); oracle onun regresyon harnessi olacak. [AGENT]
+
+## Durum eki (2026-11-15, OFFICE-004)
+- OFFICE-004 kod commit'i 6ba62ae, branch task/office-004-git-read-allowlist; main'e fast-forward merge Owner adimidir (branch kalir); push yapilmadi, remote karari ayri.
+- Oracle KNOWN_OPEN v2 bos, bulgu 0.
+- Onceki eksteki "Bir sonraki gorev: default-deny allowlist" tamamlandi; tarihsel satirlara dokunulmadi.
+- Siradaki adaylar (YALNIZ liste, karar Owner'in): yanlis-red gozlemi ve BLOCKED defteri (D5), backlog B13 durumu, push/remote karari, OFFICE-003 ve 004 branch temizligi (merge'den sonra, ayri adim).
+- Ayrinti: docs/tasks/OFFICE-004.md, docs/GUARD-SYSTEMS.md bolum 5 ve 6.
