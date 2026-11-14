@@ -1,6 +1,6 @@
 # TASK OFFICE-002 - implementer read-only git (B13) + --no-index hardening + web-is-data lines
 
-Status: REVIEW_VERIFIED (Owner decision 2026-11-14; model review, no human independent review; limits listed below)        Branch: task/office-002-implementer-git-read        Opened: 2026-11-14
+Status: MERGED to main at e8ac883 (fast-forward, Owner, 2026-11-14); REVIEW_VERIFIED (Owner decision 2026-11-14; model review, no human independent review; limits listed below)        Branch: task/office-002-implementer-git-read        Opened: 2026-11-14
 
 Task state lives in this file, not in the chat. A new session reads it and continues.
 
@@ -15,10 +15,10 @@ Evidence source labels used below: [AGENT] = a dispatched subagent's own report 
 
 ## Approved scope (Owner copies this into .claude/task-scope.json; see .claude/task-scope.example.json)
 - Owner-approved 2026-11-14 (OFFICE-002 onay): .claude/hooks/scope-guard.mjs, test/scope-guard.test.mjs, .claude/agents/security-engineer.md, .claude/agents/software-architect.md. Edited via the bridge file tool, not the guarded Edit/Write tools; Owner commits.
-- Active .claude/task-scope.json (observed by the Director 2026-11-14): taskId OFFICE-002, expires 2026-11-15T23:59:59Z, allow = test/scope-guard.test.mjs, docs/tasks/OFFICE-002.md. This entry was written under that scope; nothing else was written by the Director.
+- Active .claude/task-scope.json (observed by the Director 2026-11-14): taskId OFFICE-002, expires 2026-11-15T23:59:59Z, allow = test/scope-guard.test.mjs, docs/tasks/OFFICE-002.md. This entry was written under that scope; nothing else was written by the Director. (historical; after the merge the Owner replaced the scope: allow = docs/CONTINUE.md, docs/tasks/OFFICE-002.md)
 
 ## Plan (Planner -> Architect -> Implementation -> QA -> Reviewer)
-- [ ] Brief   - [ ] Design   - [x] Code + tests   - [x] QA run (pre-fix; post-fix runs are OWNER/DIRECTOR)   - [x] Review performed (see below; REVIEW_VERIFIED recorded by the Owner)   - [ ] Owner merge
+- [ ] Brief   - [ ] Design   - [x] Code + tests   - [x] QA run (pre-fix; post-fix runs are OWNER/DIRECTOR)   - [x] Review performed (see below; REVIEW_VERIFIED recorded by the Owner)   - [x] Owner merge (e8ac883, fast-forward into main)
 
 ## Evidence (real command output only; unrun = NOT TESTED)
 - RED (Windows, Owner): `node --test test/scope-guard.test.mjs` -> 24 tests, 22 pass, 2 fail (implementer `git diff` denied; reviewer `git diff --no-index nul .env` PASSED, i.e. the gap is real).
@@ -52,7 +52,7 @@ Evidence source labels used below: [AGENT] = a dispatched subagent's own report 
   - Director observation: test/scope-guard.test.mjs now ends with a newline (N5 fixed).
 
 ### REVIEW 4 [AGENT: release-evidence-reviewer, read-only, model review not human]
-- Result: REVIEW_PERFORMED. Reviewer's recommendation: REVIEW_VERIFIED yes for criteria 1-4, on condition that criterion 5 is evidenced separately (its own node run was BLOCKED by the hook, so test counts are NOT TESTED BY IT; static count 28 test( blocks in test/scope-guard.test.mjs, not a run). REVIEW_VERIFIED is NOT recorded here; the Owner decides.
+- Result: REVIEW_PERFORMED. Reviewer's recommendation: REVIEW_VERIFIED yes for criteria 1-4, on condition that criterion 5 is evidenced separately (its own node run was BLOCKED by the hook, so test counts are NOT TESTED BY IT; static count 28 test( blocks in test/scope-guard.test.mjs, not a run). REVIEW_VERIFIED is NOT recorded here (at that time); the Owner decides.
 - Baseline it printed: HEAD a3b728997f7f4b99379ebdf6ed262ec29c79a818, branch task/office-002-implementer-git-read, status = 4 M (the approved files) + ?? docs/tasks/OFFICE-002.md; nothing staged.
 - Live probes as release-evidence-reviewer (hook decision as reported): BLOCKED -> `--no-index`, `--no-ind`, `\--no-index`, `--outp=x`, `--ext-d`, `--stat ../x`, `--stat C:x`, `--stat C:..`, `--stat C:../x`, `--stat C:AGENTS.md CLAUDE.md`, PowerShell `--stat @PROFILE CLAUDE.md`. Ran -> `git diff --stat`, `--name-only`, `--cached --stat`, `git log --oneline`; also `-OAGENTS.md --stat` and `git show HEAD:AGENTS.md` ran.
 - F1 RESOLVED, F3 RESOLVED (reviewer: live PowerShell `@PROFILE` probe BLOCKED; code checks `startsWith('@')`).
@@ -81,7 +81,9 @@ No mismatch with expectation. Targets were AGENTS.md and CLAUDE.md only.
 
 ## Open decisions / remaining work
 - REVIEW_VERIFIED: YES, Owner decision 2026-11-14, criteria 1-5. Basis: criteria 1-4 by REVIEW 4 and live probes [AGENT]; criterion 5 by [OWNER] and [DIRECTOR] runs. Limits accepted by the Owner: agent evidence is self-reported, no human independent review, N1-N3 deferred to OFFICE-003.
-- Owner: stage (exact files: .claude/agents/security-engineer.md, .claude/agents/software-architect.md, .claude/hooks/scope-guard.mjs, test/scope-guard.test.mjs, docs/tasks/OFFICE-002.md), commit on this feature branch, merge, no push. Nothing has been staged or committed.
+- MERGED [OWNER]: fast-forward into main, commit e8ac883 `feat(hooks): read-only git for implementer, deny drive-relative and @ tokens (OFFICE-002)`. Stage, commit and merge were done by the Owner; no push, no remote. [DIRECTOR] observed afterwards (read-only): branch main, HEAD e8ac883 with the single parent a3b7289, working tree clean, and `git show --stat` lists exactly 5 files (.claude/agents/security-engineer.md, .claude/agents/software-architect.md, .claude/hooks/scope-guard.mjs, test/scope-guard.test.mjs, docs/tasks/OFFICE-002.md; 157 insertions, 3 deletions) = the stage list. Fast-forward itself is the Owner's statement; the Director saw a linear history, not the merge command.
+- Post-merge tests on main [OWNER]: `node --test` group 1 (3 files) 64/64, group 2 (4 parked-chain files) 209/209, fail 0, both exit codes 0. The Director did not see the raw output and did not re-run on e8ac883.
+- Not done in this task: feature branch `task/office-002-implementer-git-read` still exists (cleanup is a separate Owner step after merge); docs/backlog.md B13 not updated; no docs/tasks/OFFICE-003.md exists yet.
 - OFFICE-003 (deferred): N1 (Bash in new tests), N2 (comma tokens), N3 (`-O` with outside path).
 
 ## Measurement (Owner fills; unmeasured = NOT MEASURED, never estimate)
