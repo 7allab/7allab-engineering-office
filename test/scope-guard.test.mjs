@@ -191,3 +191,73 @@ test('git read (Bash): plain in-repo read commands still pass', () => {
     for (const c of ['git status --short', 'git diff --stat AGENTS.md CLAUDE.md', 'git diff main..HEAD', 'git show HEAD:src/a.js', 'git log --oneline -5'])
       assert.equal(act(sh(c, agent, 'Bash')), 'pass', `${agent}: ${c}`);
 });
+
+// OFFICE-004 Stage 1 (RED-first): default-deny allowlist for git read. Two roles x two tools per group.
+// Every miss is collected so one run lists all commands that are wrongly allowed or denied (group letters follow docs/tasks/OFFICE-004.md K2).
+const GIT_READ_TOOLS = ['Bash', 'PowerShell'];
+function gitReadMisses(cmds, want) {
+  const misses = [];
+  for (const agent of GIT_READ_AGENTS)
+    for (const tool of GIT_READ_TOOLS)
+      for (const cmd of cmds)
+        if (act(sh(cmd, agent, tool)) !== want) misses.push(`${agent} ${tool}: ${cmd} (expected ${want})`);
+  return misses;
+}
+const GIT_ALLOW_C1 = [
+  'git status', 'git status --short', 'git status --porcelain', 'git status --ignored', 'git diff', 'git diff --stat', 'git diff --name-only',
+  'git diff --name-status', 'git diff HEAD', 'git diff HEAD --stat', 'git diff -- m1.txt', 'git diff -- sub/', 'git diff -- sub/x.txt', 'git log',
+  'git log --oneline', 'git log -1 --stat', 'git show', 'git show HEAD', 'git show --stat HEAD', 'git show HEAD:m1.txt', 'git show HEAD:sub/x.txt',
+  'git rev-parse HEAD', 'git rev-parse --show-toplevel', 'git ls-files', 'git ls-files sub/', 'git ls-files --others --exclude-standard',
+  'git branch --show-current',
+];
+const GIT_ALLOW_PLAIN = [
+  'git diff', 'git diff --stat', 'git log -5', 'git status', 'git show HEAD', 'git rev-parse HEAD', 'git diff --name-only', 'git diff --cached',
+  'git diff --no-color', 'git log --oneline -5', 'git log --stat -3', 'git status --short', 'git show --stat HEAD', 'git log --oneline -n 5',
+  'git diff -- .claude test', 'git show HEAD --stat', 'git diff main..HEAD', 'git show HEAD:docs/CONTINUE.md', 'git diff --stat AGENTS.md CLAUDE.md',
+  'git show HEAD:src/a.js',
+];
+const GIT_DENY_KNOWN_OPEN = [
+  'git diff --name-only -O../outside/dir/a1.txt', 'git ls-files --cached --ignored --exclude-from=../outside/dir/a1.txt',
+  'git ls-files --cached --ignored --exclude-from=../outside/secret.txt', 'git ls-files --cached --ignored --exclude-from=.env',
+  'git ls-files --cached --ignored --exclude-from=C:.env', 'git ls-files --cached --ignored --exclude-per-directory=../outside/dir/a1.txt',
+  'git ls-files --cached --ignored --exclude-per-directory=../outside/secret.txt', 'git ls-files --cached --ignored --exclude-per-directory=.env',
+  'git ls-files --cached --ignored --exclude-per-directory=C:.env', 'git diff HEAD --name-only -O../outside/secret.txt',
+  'git diff --name-only -O../outside/secret.txt', 'git diff --name-only -O.env', 'git diff --name-only -Oc:.env', 'git diff --name-only -OC:.env',
+  'git diff --name-status -O../outside/secret.txt', 'git diff -O../outside/secret.txt', 'git diff --stat -O../outside/secret.txt',
+  'git log --stat -O../outside/secret.txt', 'git show --stat -O../outside/secret.txt HEAD',
+];
+test('git read allowlist (a): the 27 oracle C1 commands and the plain in-repo read commands pass', () => {
+  assert.deepEqual(gitReadMisses([...GIT_ALLOW_C1, ...GIT_ALLOW_PLAIN], 'pass'), []);
+});
+test('git read allowlist (b): the 19 KNOWN_OPEN candidates are denied', () => {
+  assert.deepEqual(gitReadMisses(GIT_DENY_KNOWN_OPEN, 'deny'), []);
+});
+test('git read allowlist (c): separate-form option values are denied', () => {
+  assert.deepEqual(gitReadMisses(['git diff --name-only -O .env', 'git ls-files --cached --ignored --exclude-from .env', 'git ls-files -X .env',
+    'git ls-files -X../outside/secret.txt'], 'deny'), []);
+});
+test('git read allowlist (d): other value options are denied', () => {
+  assert.deepEqual(gitReadMisses(['git diff --relative=sub', 'git log --skip-to=m1.txt', 'git diff --rotate-to=m1.txt', 'git ls-files --exclude=x',
+    'git log -L1,2:m1.txt', 'git log --stdin', 'git diff --stat=80', 'git rev-parse --resolve-git-dir .git', 'git rev-parse --git-path x',
+    'git rev-parse --prefix x'], 'deny'), []);
+});
+test('git read allowlist (e): abbreviated, bundled and terminator options are denied', () => {
+  assert.deepEqual(gitReadMisses(['git diff --sta', 'git diff -sb', 'git diff --end-of-options'], 'deny'), []);
+});
+test('git read allowlist (f): malformed number forms are denied', () => {
+  assert.deepEqual(gitReadMisses(['git log -n x', 'git log -n', 'git log -0', 'git diff -5'], 'deny'), []);
+});
+test('git read allowlist (g): comma lists and revision:path forms that reach outside are denied', () => {
+  assert.deepEqual(gitReadMisses(['git diff m1.txt,m2.txt', 'git diff HEAD:C:/x', 'git show :m1.txt', 'git log :/x'], 'deny'), []);
+});
+test('git read allowlist (h): device names are denied', () => {
+  assert.deepEqual(gitReadMisses(['git diff nul .env', 'git diff --stat NUL.txt m1.txt'], 'deny'), []);
+});
+test('git read allowlist (i): odd tokens and no-index/drive/@ regressions are denied', () => {
+  assert.deepEqual(gitReadMisses(['git diff -- -x', 'git __proto__', 'git constructor', 'git diff --no-index .env m1.txt', 'git diff @v',
+    'git diff C:.env m1.txt'], 'deny'), []);
+});
+test('git read allowlist (j): conscious narrowing (Owner D6), options the current hook allows are denied', () => {
+  assert.deepEqual(gitReadMisses(['git diff --numstat', 'git diff --shortstat', 'git diff --staged', 'git log --graph', 'git rev-parse --short HEAD',
+    'git rev-parse --abbrev-ref HEAD', 'git log --format=oneline'], 'deny'), []);
+});

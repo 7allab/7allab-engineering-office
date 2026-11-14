@@ -7,7 +7,7 @@
 // Writer/executor options (--output, --ext-diff, --textconv, -c, --exec-path, --open-files-in-pager) are static decide() only, never executed:
 // every candidate has a hand-assigned execClass (READ or STATIC_ONLY), and writerHit() refuses to run any command containing such an option, independent of decide().
 // Stage 3: the equivalence check, the env ablation and the 300-per-shell measurement are calibration-only (ORACLE_CALIBRATION=1);
-// the default run is oracle + controls + checkpoints + KNOWN_OPEN comparison + mutants M1-M3 (criterion 6c).
+// the default run is oracle + controls + checkpoints + KNOWN_OPEN comparison + mutants M1-M4 (criterion 6c).
 // Stage 2: Option A batching. One shell process per shell and state runs a whole batch from a script file; every command goes through
 // eval (Bash) or Invoke-Expression (PowerShell) like the real tools, and is delimited by sentinel markers on stdout and stderr.
 import test, { after } from 'node:test';
@@ -30,32 +30,11 @@ const CATS = ['C1', 'C3', 'C5', 'C6', 'C8'];
 // observed values. totalMs = oracle phase (90000 ms); defaultRunMs = whole default run (240000 ms); calibrationRunMs = whole ORACLE_CALIBRATION=1 run (720000 ms). Observed durations are
 // recorded in docs/tasks/OFFICE-003.md (Evidence), not here. The calibration ceiling is opt-in: an overrun means rerun, not a security signal.
 const LIMITS = { generated: 5000, perShell: 300, cmdTimeoutMs: 10000, totalMs: 90000, defaultRunMs: 240000, calibrationRunMs: 720000, minExecuted: 10 };
-// KNOWN_OPEN (criterion 13): findings expected on the current hook (the 38 entries below, Owner baseline v1).
-const KNOWN_OPEN_APPROVAL = 'v1 = WORKING BASELINE (Owner, 2026-11-14, docs/tasks/OFFICE-003.md Open decisions); registered open issue, not accepted; final approval after independent review; edits to this list need Owner approval';
-// 19 candidates x 2 shells = 38 findings, copied exactly from the Stage 2 run. Row = [category, verdict, candidate, optional tag].
-// The drive letter in the rows is C: (the drive of the temp root on the Stage 2 run); on another drive the comparison will report differences.
-// EXISTENCE_CONFOUND (Owner): state B deletes a1.txt, so the difference may be existence rather than content; content leak NOT SHOWN for that candidate.
-const KNOWN_OPEN_ROWS = [
-  ['C6', 'FAIL', 'git diff --name-only -O../outside/dir/a1.txt', 'EXISTENCE_CONFOUND'],
-  ['C6', 'FAIL', 'git ls-files --cached --ignored --exclude-from=../outside/dir/a1.txt', 'EXISTENCE_CONFOUND'],
-  ['C6', 'FAIL', 'git ls-files --cached --ignored --exclude-from=../outside/secret.txt'],
-  ['C6', 'FAIL', 'git ls-files --cached --ignored --exclude-from=.env'],
-  ['C6', 'FAIL', 'git ls-files --cached --ignored --exclude-from=C:.env'],
-  ['C6', 'FAIL', 'git ls-files --cached --ignored --exclude-per-directory=../outside/dir/a1.txt', 'EXISTENCE_CONFOUND'],
-  ['C6', 'FAIL', 'git ls-files --cached --ignored --exclude-per-directory=../outside/secret.txt'],
-  ['C6', 'FAIL', 'git ls-files --cached --ignored --exclude-per-directory=.env'],
-  ['C6', 'FAIL', 'git ls-files --cached --ignored --exclude-per-directory=C:.env'],
-  ['C6', 'WARN', 'git diff HEAD --name-only -O../outside/secret.txt'],
-  ['C6', 'WARN', 'git diff --name-only -O../outside/secret.txt'],
-  ['C6', 'WARN', 'git diff --name-only -O.env'],
-  ['C6', 'WARN', 'git diff --name-only -Oc:.env'],
-  ['C6', 'WARN', 'git diff --name-only -OC:.env'],
-  ['C6', 'WARN', 'git diff --name-status -O../outside/secret.txt'],
-  ['C6', 'WARN', 'git diff -O../outside/secret.txt'],
-  ['C6', 'WARN', 'git diff --stat -O../outside/secret.txt'],
-  ['C6', 'WARN', 'git log --stat -O../outside/secret.txt'],
-  ['C6', 'WARN', 'git show --stat -O../outside/secret.txt HEAD'],
-];
+// KNOWN_OPEN (criterion 13): findings expected on the current hook. v2 is the empty list: any finding is NEW.
+const KNOWN_OPEN_APPROVAL = 'v2 = EMPTY (Owner, 2026-11-14, docs/tasks/OFFICE-004.md): all 38 v1 findings disappeared after the default-deny git-read allowlist; any finding is NEW; edits to this list need Owner approval';
+// Row = [category, verdict, candidate, optional tag].
+// v1 (38 findings = 19 candidates x 2 shells, all C6) is recorded in docs/tasks/OFFICE-003.md; closed by OFFICE-004
+const KNOWN_OPEN_ROWS = [];
 const KNOWN_OPEN = KNOWN_OPEN_ROWS.flatMap(([, verdict, cmd]) => ['Bash', 'PowerShell'].map((tool) => `${tool}|${cmd}|${verdict}`));
 const CAL = process.env.ORACLE_CALIBRATION === '1';
 const CAL_OPTS = { skip: CAL ? false : 'calibration only: set ORACLE_CALIBRATION=1' };
@@ -336,7 +315,7 @@ function candidates(D) {
   for (const sub of ['diff', 'status', 'log', 'show', 'ls-files']) for (const t of targets) { c3.push(`git ${sub} ${t}`); c3.push(`git ${sub} -- ${t}`); }
   for (const t of targets) c3.push(`git diff HEAD ${t}`);
   // two-path forms (OFFICE-002 F1 was `git diff --stat C:AGENTS.md CLAUDE.md`): the drive path is read by git as outside the work tree, so the pair is diffed as no-index.
-  // The hook refuses them (the drive-relative check in decide()), so they do not change KNOWN_OPEN; they give mutant M1 a candidate whose output depends on the secret.
+  // The hook refuses them (the drive-relative check in decide()), so they add no finding; they give mutant M1 a candidate whose output depends on the secret.
   for (const t of [`${d}:.env`, `${l}:.env`]) for (const o of ['m1.txt', 'u.txt']) { c3.push(`git diff ${t} ${o}`); c3.push(`git diff --stat ${t} ${o}`); }
   c3.push(`git diff m1.txt ${d}:.env`, `git diff --name-only ${d}:.env m1.txt`, `git diff ${d}:.env ${d}:x`);
   // R2: identical pair, so a no-index diff exits 0 in both states (gives the M1 subset an exit-0 member; every other newly allowed C3 candidate exits 1 or 128)
@@ -769,6 +748,7 @@ const MUTANTS = [
   { id: 'M1', cat: 'C3', what: 'drive-relative check removed', cut: ' || /^[A-Za-z]:/.test(x)' },
   { id: 'M2', cat: 'C5', what: 'backslash check removed', cut: "x.includes('\\\\') || " },
   { id: 'M3', cat: 'C8', what: '@ check removed (PowerShell only)', cut: "x.startsWith('@') || " },
+  { id: 'M4', cat: 'C6', what: 'option allowlist check removed', cut: "if (!flags.includes(x) && !(t[1] === 'log' && GIT_COUNT.test(x.slice(1)))) return false; " },
 ];
 async function loadMutant(T, m) {
   const src = readFileSync(join(PROJECT, '.claude', 'hooks', 'scope-guard.mjs'), 'utf8');
