@@ -1,0 +1,120 @@
+--- PREV-round1-scope-guard.mjs.txt
++++ dot-claude/hooks/scope-guard.mjs
+@@ -12,6 +12,10 @@
+ //        (4) default deny for MCP tools (mcp__*) that the matcher routes here.
+ // Shell text cannot be bounded by lexical checks (see scripts/guard-scope.mjs, SHELL_NOT_BOUNDABLE).
+ // Every failure path blocks (exit 2). Silence means "no opinion".
++// F1: loading this file ALWAYS runs the guard. There is no "am I the main module" path comparison: a junction, subst drive
++// or 8.3 path made that comparison false and the hook then exited 0 without deciding (fail-open). Only
++// SCOPE_GUARD_NO_MAIN=1, which the tests set before importing, skips main(); the Director shell asks for any command
++// that names SCOPE_GUARD_* (the same holds for SCOPE_GUARD_NO_LOG).
+ import { readFileSync, appendFileSync, statSync, renameSync } from 'node:fs';
+ import { resolve, dirname } from 'node:path';
+ import { fileURLToPath } from 'node:url';
+@@ -28,7 +32,10 @@
+ const SHELLS = ['Bash', 'PowerShell'];
+ // Owner-only, lower-case, project-relative with forward slashes. A trailing "/" means "everything below".
+ // scripts/guard-scope.mjs is the classifier this hook trusts; it is git-excluded, so nothing else records its changes (G4).
+-export const PROTECTED = ['.claude/', '.git/', 'governance/', 'imports/', 'inventory/', 'agents.md', 'claude.md', '.gitattributes', '.gitignore', 'scripts/guard-scope.mjs'];
++export const PROTECTED = ['.claude/', '.git/', 'governance/', 'imports/', 'inventory/', 'agents.md', 'claude.md', 'claude.local.md', '.mcp.json', '.gitattributes', '.gitignore', 'scripts/guard-scope.mjs'];
++// F3: agent and memory instruction files are Owner-only at ANY depth (Claude Code also loads nested CLAUDE.md files;
++// .mcp.json defines MCP servers that start outside this hook). Matched against every path segment.
++const OWNER_BASENAME = /^(agents\.md|claude\.md|claude\.local\.md|\.mcp\.json)$/i;
+ // MCP tools are denied unless their exact tool name is listed here (E4). Starts empty; only the Owner edits it.
+ export const MCP_ALLOW = Object.freeze([]);
+ const OWNER_SEG = /^(\.git|\.claude)$/i;
+@@ -50,7 +57,9 @@
+     const l = n.toLowerCase();
+     // E1/G5: governance and guard files are changed by the Owner by hand only. Such an entry is a mistake, never a grant,
+     // so the whole scope is rejected (fail closed) instead of the entry being silently ignored by the PROTECTED check.
+-    if (hits(PROTECTED, l) || hits(PROTECTED, l.replace(/\/*$/, '/')) || segs.some((seg) => OWNER_SEG.test(seg))) return bad(`Owner-only path in allow entry: ${a}`);
++    // F9: compare without trailing slashes, so "AGENTS.md/" or "scripts/guard-scope.mjs/" is rejected like the bare name.
++    const l0 = l.replace(/\/+$/, '');
++    if (hits(PROTECTED, l0) || hits(PROTECTED, l0 + '/') || segs.some((seg) => OWNER_SEG.test(seg) || OWNER_BASENAME.test(seg))) return bad(`Owner-only path in allow entry: ${a}`);
+     allow.push(l);
+   }
+   if (s.expires !== undefined) {
+@@ -76,6 +85,7 @@
+   const rel = relOf(ti[field], ctx.root);
+   if (rel === '') return deny(`${tool}: target is the project root`);
+   if (hits(PROTECTED, rel)) return deny(`${tool}: ${rel} is Owner-only (governance/config)`);
++  if (rel.split('/').some((seg) => OWNER_BASENAME.test(seg))) return deny(`${tool}: ${rel}: AGENTS.md, CLAUDE.md, CLAUDE.local.md and .mcp.json are Owner-only at any depth`);
+   let scope;
+   try { scope = ctx.readScope(); } catch { return deny('no readable .claude/task-scope.json: no active task, no writes'); }
+   const v = validateScope(scope, ctx.now ?? Date.now());
+@@ -154,17 +164,27 @@
+   /\b(del|erase|rd|rmdir)\b\s+\/s/i,
+ ];
+ // E3/E5: an Owner-only name anywhere in the command text (case-insensitive) asks, whether the command reads or writes it.
+-const PROTECTED_NAMES = /agents\.md|claude\.md|\.claude|task-scope|scope-guard|guard-scope|\.git[\\\/]+config|\.gitattributes|\.gitignore/i;
++// F2: any path into .git (".git/", ".git\", or ".git" as a word: hooks/, info/, config, HEAD, ...); ".github" does not match.
++// F3: CLAUDE.local.md and .mcp.json. F1: SCOPE_GUARD_* switches ("scope[-_]guard").
++const PROTECTED_NAMES = /agents\.md|claude\.md|claude\.local\.md|\.mcp\.json|\.claude|task-scope|scope[-_]guard|guard-scope|\.git(?=[\\\/\s"';|&)]|$)|\.gitattributes|\.gitignore/i;
+ const ASK = [
+-  [/\bgit\b[^\n]*\b(add|commit|stash|merge|tag|branch|switch|checkout|cherry-pick|apply|am|mv|rm|worktree|config)\b/i, 'state-changing git command'],
+-  [/\bgit\b[^\n]*\s-c\s/i, 'git -c one-shot config override (can run textconv/fsmonitor/pager commands)'],
+-  [PROTECTED_NAMES, 'command text names an Owner-only governance or guard file (AGENTS.md, CLAUDE.md, .claude, scope files, .git/config, .gitattributes, .gitignore)'],
++  // F4: restore, reset (any form; reset --hard is denied above), pull, fetch, clone, revert.
++  [/\bgit\b[^\n]*\b(add|commit|stash|merge|tag|branch|switch|checkout|cherry-pick|apply|am|mv|rm|worktree|config|restore|reset|pull|fetch|clone|revert)\b/i, 'state-changing or network git command'],
++  // F5: one-shot config by option or environment can run textconv/fsmonitor/pager/external-diff commands.
++  [/\bgit\b[^\n]*\s-c\s|--config-env|\bGIT_CONFIG|\bGIT_EXTERNAL_DIFF\b/i, 'git config override (-c, --config-env, GIT_CONFIG*, GIT_EXTERNAL_DIFF)'],
++  [PROTECTED_NAMES, 'command text names an Owner-only governance or guard file (AGENTS.md, CLAUDE.md, CLAUDE.local.md, .mcp.json, .claude, scope files, .git/, .gitattributes, .gitignore)'],
+   // Inline or stdin interpreter code carries file names past the name check above.
+   [/(^|[\s;&|(\\\/])(python[0-9.]*|py|node|deno|bun|ruby|perl|php)(\.exe)?\s+(-|-c|-e|-p|-r|--eval|--print)(?=\s|$)/i, 'inline or stdin interpreter code'],
+   [/\b(pwsh|powershell)(\.exe)?\b[^\n]*\s-(e|ec|en[a-z]*)(?=\s|$)/i, 'PowerShell encoded command'],
+   [/\b(Invoke-Expression|iex)\b/i, 'Invoke-Expression'],
+   // AGENTS.md: npm ci and npm run build only with Owner approval; installs change node_modules and run package scripts.
+-  [/\bnpx\b|\bnpm(\.cmd)?\s+(ci|install|i|in|add|update|up|upgrade|uninstall|un|remove|rm|r|link|ln|exec|x|rebuild|dedupe|prune|publish)\b|\bnpm(\.cmd)?\s+run(-script)?\s+build/i, 'npm install/ci/exec/build'],
++  // F6: options before the verb (npm -g install), init/create, global installs, npm run verify (it runs build),
++  // and pnpm/yarn/bun add|install.
++  [/\bnpx\b/i, 'npx'],
++  [/\bnpm(\.cmd|\.ps1|\.exe)?\b(\s+-\S+)*\s+(ci|install|isntall|i|in|it|add|update|up|upgrade|uninstall|un|remove|rm|r|link|ln|exec|x|rebuild|dedupe|prune|publish|init|create)\b/i, 'npm install/ci/exec/init/create'],
++  [/\bnpm(\.cmd|\.ps1|\.exe)?\b[^\n]*\s(-g|--global)(?=[\s=]|$)/i, 'global npm (-g/--global)'],
++  [/\bnpm(\.cmd|\.ps1|\.exe)?\b(\s+-\S+)*\s+run(-script)?\s+(build|verify)\b/i, 'npm run build/verify (verify includes build)'],
++  [/\b(pnpm|yarn|bun)(\.cmd|\.ps1|\.exe)?\b(\s+-\S+)*\s+(add|install|i)\b/i, 'pnpm/yarn/bun add/install'],
+ ];
+ // Bash `\`+newline, PowerShell backtick+newline and cmd `^`+newline continue a line: `git \<newline>push` is `git push`.
+ const joinContinuations = (c) => c.replace(/[\\`^][ \t]*\r?\n/g, '');
+@@ -202,7 +222,8 @@
+ // One JSON line per decision, so "did the hook run and what did it return" is a record, not a guess.
+ // G10: logs the command text and the file path, each cut to 300 characters (with the full length when cut).
+ // The log is rotated once it reaches LOG_MAX_BYTES (one previous file kept as .1): total size stays below about 2 x LOG_MAX_BYTES.
+-// Command text can contain secrets typed on the command line; the log stays under .claude/ (git-excluded, Owner-only).
++// F7: the log can hold secrets typed on a command line. "Owner-only" holds for WRITES only: the log lives under .claude/
++// (git-excluded; Write/Edit denied by this hook), but the Read tool and any shell can READ it, full command text included.
+ // Logging can never change a decision.
+ export const LOG_MAX_BYTES = 1024 * 1024;
+ const LOG_TEXT_MAX = 300;
+@@ -229,6 +250,14 @@
+   } catch { /* ignore */ }
+ }
+ 
++// F8: write the decision text, then exit only from the write callback, so a piped stdout/stderr is drained before the
++// process ends. process.exitCode is set first: if the callback never runs, the event loop still ends with this code.
++export function finish(code, stream, text, exit = (c) => process.exit(c)) {
++  process.exitCode = code;
++  if (!stream || !text) return exit(code);
++  stream.write(text, () => exit(code));
++}
++
+ const defaultReadScope = (root) => JSON.parse(readFileSync(resolve(root, '.claude', 'task-scope.json'), 'utf8').replace(BOM, ''));
+ 
+ async function main() {
+@@ -239,12 +268,12 @@
+   try { event = JSON.parse(raw.replace(BOM, '')); } catch { event = null; } // Windows PowerShell 5.1 pipes may prepend a UTF-8 BOM
+   const d = decide(event, { root, readScope: () => defaultReadScope(root) });
+   logDecision(event, d);
+-  if (d.action === 'deny') { process.stderr.write(`[scope-guard] BLOCKED: ${d.reason}\n`); process.exit(2); }
++  if (d.action === 'deny') return finish(2, process.stderr, `[scope-guard] BLOCKED: ${d.reason}\n`);
+   if (d.action === 'ask') {
+-    process.stdout.write(JSON.stringify({ hookSpecificOutput: { hookEventName: 'PreToolUse', permissionDecision: 'ask', permissionDecisionReason: `[scope-guard] ${d.reason}` } }));
++    return finish(0, process.stdout, JSON.stringify({ hookSpecificOutput: { hookEventName: 'PreToolUse', permissionDecision: 'ask', permissionDecisionReason: `[scope-guard] ${d.reason}` } }));
+   }
+-  process.exit(0);
++  return finish(0);
+ }
+ 
+-const isMain = process.argv[1] && resolve(process.argv[1]).toLowerCase() === resolve(fileURLToPath(import.meta.url)).toLowerCase();
+-if (isMain) main().catch(() => { process.stderr.write('[scope-guard] BLOCKED: internal error\n'); process.exit(2); });
++// F1: no main-module path comparison (see header). Tests set SCOPE_GUARD_NO_MAIN=1 before importing this module.
++if (process.env.SCOPE_GUARD_NO_MAIN !== '1') main().catch(() => finish(2, process.stderr, '[scope-guard] BLOCKED: internal error\n'));

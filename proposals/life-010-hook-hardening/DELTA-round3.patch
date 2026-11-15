@@ -1,0 +1,66 @@
+--- PREV-round2-scope-guard.mjs.txt
++++ dot-claude/hooks/scope-guard.mjs
+@@ -164,27 +164,43 @@
+   /\b(del|erase|rd|rmdir)\b\s+\/s/i,
+ ];
+ // E3/E5: an Owner-only name anywhere in the command text (case-insensitive) asks, whether the command reads or writes it.
+-// F2: any path into .git (".git/", ".git\", or ".git" as a word: hooks/, info/, config, HEAD, ...); ".github" does not match.
++// F2/N5: any path into .git: ".git" not followed by a word character or "-" (".git/", ".git\", ".git*", ".git,", ".git>",
++// ".git" at the end, ...). ".github", ".gitmodules", ".gitkeep" do not match; .gitattributes/.gitignore have their own entries.
+ // F3: CLAUDE.local.md and .mcp.json. F1: SCOPE_GUARD_* switches ("scope[-_]guard").
+-const PROTECTED_NAMES = /agents\.md|claude\.md|claude\.local\.md|\.mcp\.json|\.claude|task-scope|scope[-_]guard|guard-scope|\.git(?=[\\\/\s"';|&)]|$)|\.gitattributes|\.gitignore/i;
++const PROTECTED_NAMES = /agents\.md|claude\.md|claude\.local\.md|\.mcp\.json|\.claude|task-scope|scope[-_]guard|guard-scope|\.git(?![\w-])|\.gitattributes|\.gitignore/i;
++// N2: a package manager anywhere in the command AND an install-like verb anywhere in it (as a separate word), so options
++// with values ("npm --prefix app install") cannot hide the verb. "npm test" / "npm run check" have no such verb.
++const PKG_MGR = /\b(npm|pnpm|yarn|bun|bunx|npx)(\.cmd|\.ps1|\.exe)?\b/i;
++// R3-1: the verb may touch shell punctuation or quotes (`npm ci&&x`, `(npm ci)`, `npm install|tee`) and may be followed by
++// "-" (npm's `install-test`, `install-clean` aliases), as the round-2 `\b` allowed. It must still START a word ("test-ci" no).
++// Also before the verb: "\" (bash drops it: `npm \ci`), "^" (cmd drops it: `npm ^ci`), "{" and "," (PowerShell `&{npm ci}`,
++// `npm x,ci`); after it: "," and "}". Known accepted over-asks: `echo up-to-date`, `x-report.txt` next to an npm command.
++const PKG_VERB = /(^|[\s;&|("'`\\^{,])(ci|clean-install|ic|cit|install-ci-test|install|isntall|i|in|it|add|update|up|upgrade|uninstall|un|unlink|remove|rm|r|link|ln|exec|x|dlx|rebuild|dedupe|prune|publish|init|create|version|pkg)(?=[\s;&|)<>"'`,}-]|$)/i;
++const pkgInstall = (x) => PKG_MGR.test(x) && PKG_VERB.test(x);
++// Ext (Owner, tur 3): this exact command is a read and does not ask; every other `git branch ...` still asks.
++const ASK_EXEMPT = ['git branch --show-current'];
+ const ASK = [
+-  // F4: restore, reset (any form; reset --hard is denied above), pull, fetch, clone, revert.
+-  [/\bgit\b[^\n]*\b(add|commit|stash|merge|tag|branch|switch|checkout|cherry-pick|apply|am|mv|rm|worktree|config|restore|reset|pull|fetch|clone|revert)\b/i, 'state-changing or network git command'],
++  // F4/N3: restore, reset (any form; reset --hard is denied above), pull, fetch, clone, revert; update-ref, gc, submodule,
++  // notes, init, replace, reflog.
++  [/\bgit\b[^\n]*\b(add|commit|stash|merge|tag|branch|switch|checkout|cherry-pick|apply|am|mv|rm|worktree|config|restore|reset|pull|fetch|clone|revert|update-ref|gc|submodule|notes|init|replace|reflog)\b/i, 'state-changing or network git command'],
+   // F5: one-shot config by option or environment can run textconv/fsmonitor/pager/external-diff commands.
+   [/\bgit\b[^\n]*\s-c\s|--config-env|\bGIT_CONFIG|\bGIT_EXTERNAL_DIFF\b/i, 'git config override (-c, --config-env, GIT_CONFIG*, GIT_EXTERNAL_DIFF)'],
++  // N4: assigning any GIT_<name> (GIT_PAGER, GIT_SSH_COMMAND, GIT_DIR, ...) or EDITOR, in sh/cmd or PowerShell form.
++  [/\bGIT_[A-Z0-9_]+\s*=|\$env:GIT_[A-Z0-9_]+|\bEDITOR\s*=|\$env:EDITOR\b/i, 'GIT_* or EDITOR assignment (git runs these as commands)'],
++  // N1: GitHub CLI: PR merge/create, release, repo and api calls act on the remote, which is Owner-only.
++  [/\bgh(\.exe)?\s/i, 'GitHub CLI (gh)'],
+   [PROTECTED_NAMES, 'command text names an Owner-only governance or guard file (AGENTS.md, CLAUDE.md, CLAUDE.local.md, .mcp.json, .claude, scope files, .git/, .gitattributes, .gitignore)'],
+   // Inline or stdin interpreter code carries file names past the name check above.
+   [/(^|[\s;&|(\\\/])(python[0-9.]*|py|node|deno|bun|ruby|perl|php)(\.exe)?\s+(-|-c|-e|-p|-r|--eval|--print)(?=\s|$)/i, 'inline or stdin interpreter code'],
+   [/\b(pwsh|powershell)(\.exe)?\b[^\n]*\s-(e|ec|en[a-z]*)(?=\s|$)/i, 'PowerShell encoded command'],
+   [/\b(Invoke-Expression|iex)\b/i, 'Invoke-Expression'],
+   // AGENTS.md: npm ci and npm run build only with Owner approval; installs change node_modules and run package scripts.
+-  // F6: options before the verb (npm -g install), init/create, global installs, npm run verify (it runs build),
+-  // and pnpm/yarn/bun add|install.
+-  [/\bnpx\b/i, 'npx'],
+-  [/\bnpm(\.cmd|\.ps1|\.exe)?\b(\s+-\S+)*\s+(ci|install|isntall|i|in|it|add|update|up|upgrade|uninstall|un|remove|rm|r|link|ln|exec|x|rebuild|dedupe|prune|publish|init|create)\b/i, 'npm install/ci/exec/init/create'],
++  // F6/N2: package managers. npx/bunx always (they download and run packages); install-like verbs at any position;
++  // global npm; npm run build/verify (verify includes build).
++  [/\b(npx|bunx)\b/i, 'npx/bunx'],
++  [pkgInstall, 'package manager install/ci/exec/dlx/init/create/version/pkg'],
+   [/\bnpm(\.cmd|\.ps1|\.exe)?\b[^\n]*\s(-g|--global)(?=[\s=]|$)/i, 'global npm (-g/--global)'],
+   [/\bnpm(\.cmd|\.ps1|\.exe)?\b(\s+-\S+)*\s+run(-script)?\s+(build|verify)\b/i, 'npm run build/verify (verify includes build)'],
+-  [/\b(pnpm|yarn|bun)(\.cmd|\.ps1|\.exe)?\b(\s+-\S+)*\s+(add|install|i)\b/i, 'pnpm/yarn/bun add/install'],
+ ];
+ // Bash `\`+newline, PowerShell backtick+newline and cmd `^`+newline continue a line: `git \<newline>push` is `git push`.
+ const joinContinuations = (c) => c.replace(/[\\`^][ \t]*\r?\n/g, '');
+@@ -200,8 +216,9 @@
+     return rule(tokensOf(cmd)) ? pass() : deny(`command not on the allowlist for ${agent}: one plain test/read command only (no ; & | < > $ backtick ( ) quotes or redirects)`);
+   }
+   const texts = [cmd, joinContinuations(cmd)];
+-  const any = (r) => texts.some((x) => r.test(x));
++  const any = (r) => texts.some((x) => (typeof r === 'function' ? r(x) : r.test(x)));
+   if (DANGEROUS.some(any)) return deny('push, reset --hard, clean, rebase, remote edits and recursive delete are Owner-only (D2)');
++  if (ASK_EXEMPT.includes(cmd)) return pass();
+   for (const [r, why] of ASK) if (any(r)) return ask(`${why}: Owner approval required (D2)`);
+   return pass();
+ }
