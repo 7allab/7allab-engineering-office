@@ -61,3 +61,10 @@ Son guncelleme (2): 2026-11-15 (OFFICE-004: git-read default-deny allowlist, kod
 - A karantina denemesi zararli bulundu; dal task/office-007-quarantine-director-copies main'e alinmadi; A acik.
 - Ayrinti: docs/K2-D18-A-QUARANTINE-RECORD-2026-11-15.md. Ara kontrol 2026-11-24.
 - Tarihsel satirlara dokunulmadi.
+
+## Durum eki (2026-11-15, K2 D18 C / R8)
+- R8 sonucu: PRETOOLUSE_DENY_OBSERVED=PASS, PERMISSION_REQUEST_ALLOW_OBSERVED=PASS, S3_ALLOW_OVERRIDE_PREVENTED=NOT_EXERCISED, O4_NEGATIVE_CONTROL=PASS; kapsam mock endpoint, siniflandirma model tabanli, bagimsiz inceleme yok.
+- Bash kapsam-disi kaydi: docs/W1B-R8-RECORD-2026-11-15.md Bolum 8 (PROPOSED, artik risk acik).
+- D18 esleme: C=PASS onerilen (commit ile kesinlesir), A acik; ara kontrol 2026-11-24.
+- Ayrinti: docs/W1B-R8-RECORD-2026-11-15.md.
+- Tarihsel satirlara dokunulmadi.
