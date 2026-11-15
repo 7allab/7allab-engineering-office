@@ -51,3 +51,8 @@ Son guncelleme (2): 2026-11-15 (OFFICE-004: git-read default-deny allowlist, kod
 - Office yerinde kaldi (tasinmaz).
 - Ayrinti: docs/PROJECT-LAYOUT.md.
 - Tarihsel yol satirlarina dokunulmadi.
+
+## Durum eki (2026-11-15, K2 D18 D/E kaydi)
+- D ve E icin SHA-256 + provenans kaydi: docs/K2-D18-DE-HASH-RECORD-2026-11-15.md.
+- Siniflandirma ONERILEN, commit ile kesinlesir. Ara kontrol 2026-11-24; A icin OFFICE-007 gerekir.
+- Tarihsel satirlara dokunulmadi.
