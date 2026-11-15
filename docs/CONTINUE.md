@@ -45,3 +45,9 @@ Son guncelleme (2): 2026-11-15 (OFFICE-004: git-read default-deny allowlist, kod
 - Onceki eksteki "Bir sonraki gorev: default-deny allowlist" tamamlandi; tarihsel satirlara dokunulmadi.
 - Siradaki adaylar (YALNIZ liste, karar Owner'in): yanlis-red gozlemi ve BLOCKED defteri (D5), backlog B13 durumu, push/remote karari, OFFICE-003 ve 004 branch temizligi (merge'den sonra, ayri adim).
 - Ayrinti: docs/tasks/OFFICE-004.md, docs/GUARD-SYSTEMS.md bolum 5 ve 6.
+
+## Durum eki (2026-11-15, klasor duzeni)
+- Urun repolari C:\Projeler\Products altina tasindi.
+- Office yerinde kaldi (tasinmaz).
+- Ayrinti: docs/PROJECT-LAYOUT.md.
+- Tarihsel yol satirlarina dokunulmadi.
