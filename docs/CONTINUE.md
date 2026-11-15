@@ -56,3 +56,8 @@ Son guncelleme (2): 2026-11-15 (OFFICE-004: git-read default-deny allowlist, kod
 - D ve E icin SHA-256 + provenans kaydi: docs/K2-D18-DE-HASH-RECORD-2026-11-15.md.
 - Siniflandirma ONERILEN, commit ile kesinlesir. Ara kontrol 2026-11-24; A icin OFFICE-007 gerekir.
 - Tarihsel satirlara dokunulmadi.
+
+## Durum eki (2026-11-15, K2 D18 A denemesi)
+- A karantina denemesi zararli bulundu; dal task/office-007-quarantine-director-copies main'e alinmadi; A acik.
+- Ayrinti: docs/K2-D18-A-QUARANTINE-RECORD-2026-11-15.md. Ara kontrol 2026-11-24.
+- Tarihsel satirlara dokunulmadi.
